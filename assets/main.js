@@ -49,8 +49,7 @@ function create() {
 
     var enemy = enemies.create(600, 200, 'enemy');
     enemy.body.velocity.y = 200;
-    enemy.body.bounce.x = 1;
-    enemy.body.bounce.y = 1;
+    enemy.body.bounce.set(1);
 
     game.camera.follow(player);
 
