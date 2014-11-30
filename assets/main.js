@@ -62,6 +62,7 @@ function update() {
     game.physics.arcade.collide(player, layer);
     game.physics.arcade.collide(enemies, layer);
     game.physics.arcade.collide(hearts, layer);
+    game.physics.arcade.overlap(player, enemies, gameOver, null, this);
 
 	player.body.velocity.x = 0;
     player.body.velocity.y = 0;
@@ -106,4 +107,13 @@ function checkOverlap(spriteA, spriteB) {
     var boundsB = spriteB.getBounds();
 
     return Phaser.Rectangle.intersects(boundsA, boundsB);
+}
+
+function gameOver(player, enemy) {
+    player.kill();
+    restart();
+}
+
+function restart() {
+    player.reset(200, 200);
 }
