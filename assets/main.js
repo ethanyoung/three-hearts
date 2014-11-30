@@ -37,19 +37,20 @@ function create() {
 	player = game.add.sprite(200, 200, 'player');
 	game.physics.enable(player);
     player.body.fixedRotation = true;
-
+    player.body.collideWorldBounds = true;
     hearts = game.add.group();
     hearts.enableBody = true;
-    hearts.physicsBodyType = Phaser.Physics.ARCADE;
     hearts.create(500, 500, 'heart');
     hearts.create(300, 150, 'heart');
     hearts.create(600, 100, 'heart');
 
     enemies = game.add.group();
     enemies.enableBody = true;
-    enemies.physicsBodyType = Phaser.Physics.ARCADE;
+
     var enemy = enemies.create(600, 200, 'enemy');
     enemy.body.velocity.y = 200;
+    enemy.body.bounce.x = 1;
+    enemy.body.bounce.y = 1;
 
     game.camera.follow(player);
 
