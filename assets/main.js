@@ -16,6 +16,8 @@ var hearts;
 var text;
 
 function create() {
+    score = 0;
+
     game.physics.startSystem(Phaser.Physics.P2JS);
 	game.stage.backgroundColor = '#018E0E';
     game.physics.p2.defaultRestitution = 0.8;
@@ -83,10 +85,11 @@ function render() {
 function checkHearts() {
     hearts.forEach(function(heart){
         if (checkOverlap(hero, heart)) {
-            text.text = 'You got one heart!';
+            score += 1;
+            text.text = 'You got ' + score + ' heart!';
             heart.kill();
         }
-    }, this);
+    }, this, true);
 }
 
 function checkOverlap(spriteA, spriteB) {
