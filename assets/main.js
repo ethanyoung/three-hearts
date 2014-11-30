@@ -12,13 +12,14 @@ function preload() {
 var hero;
 var cursors;
 var map;
-var heart;
+var hearts;
 var text;
 
 function create() {
     game.physics.startSystem(Phaser.Physics.P2JS);
 	game.stage.backgroundColor = '#018E0E';
     game.physics.p2.defaultRestitution = 0.8;
+
     map = game.add.tilemap('map');
 
     map.addTilesetImage('ground_1x1');
@@ -32,11 +33,17 @@ function create() {
 
 	hero = game.add.sprite(200, 200, 'hero');
 	game.physics.p2.enable(hero);
-    game.camera.follow(hero);
-	hero.body.setZeroDamping();
-	hero.body.fixedRotation = true;
+    hero.body.setZeroDamping();
+    hero.body.fixedRotation = true;
 
-    heart = game.add.sprite(400, 400, 'heart');
+    hearts = game.add.group();
+    hearts.enableBody = true;
+    hearts.physicsBodyType = Phaser.Physics.P2JS;
+    hearts.create(500, 500, 'heart');
+    hearts.create(300, 150, 'heart');
+    hearts.create(600, 100, 'heart');
+
+    game.camera.follow(hero);
 
     game.physics.p2.setBoundsToWorld(true, true, true, true, false);
 
@@ -50,30 +57,36 @@ function update() {
 
     if (cursors.left.isDown)
     {
-    	hero.body.moveLeft(400);
+    	hero.body.moveLeft(200);
     }
     else if (cursors.right.isDown)
     {
-    	hero.body.moveRight(400);
+    	hero.body.moveRight(200);
     }
 
     if (cursors.up.isDown)
     {
-    	hero.body.moveUp(400);
+    	hero.body.moveUp(200);
     }
     else if (cursors.down.isDown)
     {
-    	hero.body.moveDown(400);
+    	hero.body.moveDown(200);
     }
 
-    if (checkOverlap(hero, heart)) {
-        text.text = 'You got one heart!';
-        heart.kill();
-    }
+    checkHearts();
 }
 
 function render() {
 
+}
+
+function checkHearts() {
+    hearts.forEach(function(heart){
+        if (checkOverlap(hero, heart)) {
+            text.text = 'You got one heart!';
+            heart.kill();
+        }
+    }, this);
 }
 
 function checkOverlap(spriteA, spriteB) {
