@@ -6,15 +6,18 @@ function preload() {
     game.load.image('ground_1x1', 'assets/tilemaps/tiles/walls_1x1.png');
     game.load.image('walls_1x2', 'assets/tilemaps/tiles/walls_1x1.png');
     game.load.image('tiles2', 'assets/tilemaps/tiles/walls_1x1.png');
+    game.load.image('heart', 'assets/heart.png');
 }
 
 var hero;
 var cursors;
 var map;
+var heart;
+var text;
 
 function create() {
     game.physics.startSystem(Phaser.Physics.P2JS);
-	game.stage.backgroundColor = '#55AE3A';
+	game.stage.backgroundColor = '#018E0E';
     game.physics.p2.defaultRestitution = 0.8;
     map = game.add.tilemap('map');
 
@@ -33,9 +36,13 @@ function create() {
 	hero.body.setZeroDamping();
 	hero.body.fixedRotation = true;
 
+    heart = game.add.sprite(400, 400, 'heart');
+
     game.physics.p2.setBoundsToWorld(true, true, true, true, false);
 
 	cursors = game.input.keyboard.createCursorKeys();
+
+    text = game.add.text(16, 16, 'Get the heart!');
 }
 
 function update() {
@@ -58,8 +65,20 @@ function update() {
     {
     	hero.body.moveDown(400);
     }
+
+    if (checkOverlap(hero, heart)) {
+        text.text = 'You got one heart!';
+        heart.kill();
+    }
 }
 
 function render() {
 
+}
+
+function checkOverlap(spriteA, spriteB) {
+    var boundsA = spriteA.getBounds();
+    var boundsB = spriteB.getBounds();
+
+    return Phaser.Rectangle.intersects(boundsA, boundsB);
 }
