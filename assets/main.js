@@ -11,6 +11,9 @@ function preload() {
     game.load.image('flower', 'assets/flower.png');
     game.load.image('diamond', 'assets/diamond.png');
     game.load.image('star', 'assets/star_particle.png');
+
+    game.load.spritesheet('buttonvertical', 'assets/buttons/button-vertical.png',64,64);
+    game.load.spritesheet('buttonhorizontal', 'assets/buttons/button-horizontal.png',96,64);
 }
 
 var player;
@@ -20,6 +23,10 @@ var hearts;
 var text;
 var enemies;
 var emitter;
+var up = false;
+var right = false;
+var down = false;
+var left= false;
 
 function create() {
     score = 0;
@@ -61,6 +68,35 @@ function create() {
 
     text = game.add.text(16, 16, 'Get the heart!');
     text.fixedToCamera = true;
+
+    buttonup = game.add.button(96, 408, 'buttonvertical', null, this, 0, 1, 0, 1);
+    buttonup.fixedToCamera = true;
+    buttonup.events.onInputOver.add(function(){up=true;});
+    buttonup.events.onInputOut.add(function(){up=false;});
+    buttonup.events.onInputDown.add(function(){up=true;});
+    buttonup.events.onInputUp.add(function(){up=false;});
+
+    buttonleft = game.add.button(0, 472, 'buttonhorizontal', null, this, 0, 1, 0, 1);
+    buttonleft.fixedToCamera = true;
+    buttonleft.events.onInputOver.add(function(){left=true;});
+    buttonleft.events.onInputOut.add(function(){left=false;});
+    buttonleft.events.onInputDown.add(function(){left=true;});
+    buttonleft.events.onInputUp.add(function(){left=false;});
+
+    buttondown = game.add.button(96, 536, 'buttonvertical', null, this, 0, 1, 0, 1);
+    buttondown.fixedToCamera = true;
+    buttondown.events.onInputOver.add(function(){down=true;});
+    buttondown.events.onInputOut.add(function(){down=false;});
+    buttondown.events.onInputDown.add(function(){down=true;});
+    buttondown.events.onInputUp.add(function(){down=false;});
+
+    buttonright = game.add.button(160, 472, 'buttonhorizontal', null, this, 0, 1, 0, 1);
+    buttonright.fixedToCamera = true;
+    buttonright.events.onInputOver.add(function(){right=true;});
+    buttonright.events.onInputOut.add(function(){right=false;});
+    buttonright.events.onInputDown.add(function(){right=true;});
+    buttonright.events.onInputUp.add(function(){right=false;});
+
 }
 
 function update() {
@@ -72,23 +108,24 @@ function update() {
 	player.body.velocity.x = 0;
     player.body.velocity.y = 0;
 
-    if (cursors.left.isDown)
+    if (cursors.left.isDown || left)
     {
     	player.body.velocity.x = -200;
     }
-    else if (cursors.right.isDown)
+    else if (cursors.right.isDown || right)
     {
     	player.body.velocity.x = 200;
     }
 
-    if (cursors.up.isDown)
+    if (cursors.up.isDown || up)
     {
     	player.body.velocity.y = -200;
     }
-    else if (cursors.down.isDown)
+    else if (cursors.down.isDown || down)
     {
     	player.body.velocity.y = 200;
     }
+
 
     checkHearts();
 
