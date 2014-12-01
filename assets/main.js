@@ -125,7 +125,7 @@ function restart() {
 }
 
 function goodGame() {
-    player.destroy();
+    player.kill();
     enemies.destroy();
     emitter = game.add.emitter(game.world.centerX, 200, 200);
     emitter.makeParticles('flower');
