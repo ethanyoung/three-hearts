@@ -125,14 +125,14 @@ function restart() {
 }
 
 function goodGame() {
-    player.kill();
     enemies.destroy();
-    emitter = game.add.emitter(game.world.centerX, 200, 200);
+    emitter = game.add.emitter(1400, 100, 200);
     emitter.makeParticles('flower');
     emitter.gravity = 200;
     particleBurst();
+    text.text = 'Go to the EAST!';
 }
 
 function particleBurst() {
-    emitter.start(true, 5000, 20);
+    emitter.start(false, 5000, 20);
 }
