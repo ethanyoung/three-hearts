@@ -58,6 +58,7 @@ function create() {
 	cursors = game.input.keyboard.createCursorKeys();
 
     text = game.add.text(16, 16, 'Get the heart!');
+    text.fixedToCamera = true;
 }
 
 function update() {
@@ -134,5 +135,5 @@ function goodGame() {
 }
 
 function particleBurst() {
-    emitter.start(false, 5000, 20);
+    emitter.start(true, 5000, 20);
 }
