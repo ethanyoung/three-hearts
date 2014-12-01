@@ -8,6 +8,7 @@ function preload() {
     game.load.image('tiles2', 'assets/tilemaps/tiles/walls_1x1.png');
     game.load.image('heart', 'assets/heart.png');
     game.load.image('enemy', 'assets/enemy.png');   
+    game.load.image('flower', 'assets/flower.png');
 }
 
 var player;
@@ -16,6 +17,7 @@ var map;
 var hearts;
 var text;
 var enemies;
+var emitter;
 
 function create() {
     score = 0;
@@ -86,6 +88,10 @@ function update() {
     }
 
     checkHearts();
+
+    if (score == 3) {
+        goodGame();
+    }
 }
 
 function render() {
@@ -116,4 +122,17 @@ function gameOver(player, enemy) {
 
 function restart() {
     player.reset(200, 200);
+}
+
+function goodGame() {
+    player.destroy();
+    enemies.destroy();
+    emitter = game.add.emitter(game.world.centerX, 200, 200);
+    emitter.makeParticles('flower');
+    emitter.gravity = 200;
+    particleBurst();
+}
+
+function particleBurst() {
+    emitter.start(true, 5000, 20);
 }
