@@ -9,6 +9,8 @@ function preload() {
     game.load.image('heart', 'assets/heart.png');
     game.load.image('enemy', 'assets/enemy.png');   
     game.load.image('flower', 'assets/flower.png');
+    game.load.image('diamond', 'assets/diamond.png');
+    game.load.image('star', 'assets/star_particle.png');
 }
 
 var player;
@@ -128,7 +130,7 @@ function restart() {
 function goodGame() {
     enemies.destroy();
     emitter = game.add.emitter(1400, 100, 200);
-    emitter.makeParticles('flower');
+    emitter.makeParticles(['star', 'diamond', 'flower']);
     emitter.gravity = 200;
     particleBurst();
     text.text = 'Go to the EAST!';
