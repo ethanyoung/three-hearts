@@ -1,4 +1,4 @@
-var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'game-screen', { preload: preload, create: create, update: update, render: render })
+var game = new Phaser.Game(320, 480, Phaser.CANVAS, 'game-screen', { preload: preload, create: create, update: update, render: render })
 
 function preload() {
     game.load.tilemap('map', 'assets/tilemaps/maps/collision_test.json', null, Phaser.Tilemap.TILED_JSON);
@@ -14,6 +14,9 @@ function preload() {
 
     game.load.spritesheet('buttonvertical', 'assets/buttons/button-vertical.png',64,64);
     game.load.spritesheet('buttonhorizontal', 'assets/buttons/button-horizontal.png',96,64);
+
+    game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+    game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 }
 
 var player;
@@ -29,6 +32,10 @@ var down = false;
 var left= false;
 
 function create() {
+    if (!game.device.desktop) { 
+        game.input.onDown.add(fullScreen, this); 
+    }
+
     score = 0;
 
     game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -69,28 +76,28 @@ function create() {
     text = game.add.text(16, 16, 'Get the heart!');
     text.fixedToCamera = true;
 
-    buttonup = game.add.button(96, 408, 'buttonvertical', null, this, 0, 1, 0, 1);
+    buttonup = game.add.button(128, 288, 'buttonvertical', null, this, 0, 1, 0, 1);
     buttonup.fixedToCamera = true;
     buttonup.events.onInputOver.add(function(){up=true;});
     buttonup.events.onInputOut.add(function(){up=false;});
     buttonup.events.onInputDown.add(function(){up=true;});
     buttonup.events.onInputUp.add(function(){up=false;});
 
-    buttonleft = game.add.button(0, 472, 'buttonhorizontal', null, this, 0, 1, 0, 1);
+    buttonleft = game.add.button(32, 352, 'buttonhorizontal', null, this, 0, 1, 0, 1);
     buttonleft.fixedToCamera = true;
     buttonleft.events.onInputOver.add(function(){left=true;});
     buttonleft.events.onInputOut.add(function(){left=false;});
     buttonleft.events.onInputDown.add(function(){left=true;});
     buttonleft.events.onInputUp.add(function(){left=false;});
 
-    buttondown = game.add.button(96, 536, 'buttonvertical', null, this, 0, 1, 0, 1);
+    buttondown = game.add.button(128, 416, 'buttonvertical', null, this, 0, 1, 0, 1);
     buttondown.fixedToCamera = true;
     buttondown.events.onInputOver.add(function(){down=true;});
     buttondown.events.onInputOut.add(function(){down=false;});
     buttondown.events.onInputDown.add(function(){down=true;});
     buttondown.events.onInputUp.add(function(){down=false;});
 
-    buttonright = game.add.button(160, 472, 'buttonhorizontal', null, this, 0, 1, 0, 1);
+    buttonright = game.add.button(192, 352, 'buttonhorizontal', null, this, 0, 1, 0, 1);
     buttonright.fixedToCamera = true;
     buttonright.events.onInputOver.add(function(){right=true;});
     buttonright.events.onInputOut.add(function(){right=false;});
@@ -108,21 +115,17 @@ function update() {
 	player.body.velocity.x = 0;
     player.body.velocity.y = 0;
 
-    if (cursors.left.isDown || left)
-    {
+    if (cursors.left.isDown || left) {
     	player.body.velocity.x = -200;
     }
-    else if (cursors.right.isDown || right)
-    {
+    else if (cursors.right.isDown || right) {
     	player.body.velocity.x = 200;
     }
 
-    if (cursors.up.isDown || up)
-    {
+    else if (cursors.up.isDown || up) {
     	player.body.velocity.y = -200;
     }
-    else if (cursors.down.isDown || down)
-    {
+    else if (cursors.down.isDown || down) {
     	player.body.velocity.y = 200;
     }
 
@@ -175,4 +178,8 @@ function goodGame() {
 
 function particleBurst() {
     emitter.start(true, 5000, 20);
+}
+
+function fullScreen() {
+    game.scale.startFullScreen(false);
 }
