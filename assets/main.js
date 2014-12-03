@@ -106,6 +106,7 @@ var mainState = {
         buttonright.events.onInputDown.add(function(){right=true;});
         buttonright.events.onInputUp.add(function(){right=false;});
 
+        text.text = 'Go to the EAST!';
     },
 
     update: function() {
@@ -134,8 +135,10 @@ var mainState = {
 
         this.checkHearts();
 
-        if (score == 3) {
+        if (score == 1 && emitter == null) {
+            // game.state.start('goodEnding');
             this.goodGame();
+
         }
     },
 
@@ -170,18 +173,43 @@ var mainState = {
         emitter = game.add.emitter(1400, 100, 200);
         emitter.makeParticles(['star', 'diamond', 'flower']);
         emitter.gravity = 200;
-        particleBurst();
+        emitter.start(false, 5000, 20);
         text.text = 'Go to the EAST!';
     },
 
-    particleBurst: function() {
-        emitter.start(true, 5000, 20);
-    },
 
     fullScreen: function() {
         game.scale.startFullScreen(false);
     },
 };
 
+var goodEndingState = {
+    prealod: function(){
+        game.load.image('flower', 'assets/flower.png');
+        game.load.image('diamond', 'assets/diamond.png');
+        game.load.image('star', 'assets/star_particle.png');
+
+    },
+
+    create: function() {
+        emitter = game.add.emitter(game.world.centerX, 200, 200);
+        emitter.makeParticles(['star', 'diamond', 'flower']);
+        emitter.gravity = 200;
+        emitter.start(false, 5000, 20);
+    },
+
+    update: function() {
+
+    },
+
+    particleBurst: function() {
+
+    },
+    
+    ending: function() {
+
+    },
+}
 game.state.add('main', mainState);
+game.state.add('goodEnding', goodEndingState);
 game.state.start('main');
