@@ -135,7 +135,7 @@ var mainState = {
 
         this.checkHearts();
 
-        if (score == 1 && emitter == null) {
+        if (score == 3 && emitter == null) {
             // game.state.start('goodEnding');
             this.goodGame();
 
