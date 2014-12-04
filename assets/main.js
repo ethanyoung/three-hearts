@@ -34,10 +34,6 @@ var mainState = {
 
 
     create: function() {
-        if (!game.device.desktop) { 
-            game.input.onDown.add(fullScreen, this); 
-        }
-
         score = 0;
 
         game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -107,6 +103,10 @@ var mainState = {
         buttonright.events.onInputUp.add(function(){right=false;});
 
         text.text = 'Go to the EAST!';
+
+        if (!game.device.desktop) { 
+            game.input.onDown.add(this.fullScreen, this); 
+        }
     },
 
     update: function() {
