@@ -37,7 +37,7 @@ var mainState = {
         if (!game.device.desktop) { 
             game.input.onDown.add(this.fullScreen, this); 
         }
-        
+
         score = 0;
 
         game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -161,7 +161,7 @@ var mainState = {
 
     gameOver: function(player, enemy) {
         player.kill();
-        restart();
+        this.restart();
     },
 
     restart: function() {
