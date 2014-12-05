@@ -75,7 +75,8 @@ var mainState = {
 
         cursors = game.input.keyboard.createCursorKeys();
 
-        text = game.add.text(16, 16, 'Get the heart!');
+        var style = { font: "30px Arial", fill: "#000000" };
+        text = game.add.text(16, 16, 'Get the three hearts!', style);
         text.fixedToCamera = true;
 
         buttonup = game.add.button(128, 288, 'buttonvertical', null, this, 0, 1, 0, 1);
@@ -106,7 +107,6 @@ var mainState = {
         buttonright.events.onInputDown.add(function(){right=true;});
         buttonright.events.onInputUp.add(function(){right=false;});
 
-        text.text = 'Go to the EAST!';
     },
 
     update: function() {
@@ -146,7 +146,7 @@ var mainState = {
         hearts.forEach(function(heart){
             if (this.checkOverlap(player, heart)) {
                 score += 1;
-                text.text = 'You got ' + score + ' heart!';
+                text.text = 'You\'ve got ' + score + ' hearts.';
                 heart.kill();
             }
         }, this, true);
