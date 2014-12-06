@@ -183,33 +183,5 @@ var mainState = {
     },
 };
 
-var goodEndingState = {
-    prealod: function(){
-        game.load.image('flower', 'assets/flower.png');
-        game.load.image('diamond', 'assets/diamond.png');
-        game.load.image('star', 'assets/star_particle.png');
-
-    },
-
-    create: function() {
-        emitter = game.add.emitter(game.world.centerX, 200, 200);
-        emitter.makeParticles(['star', 'diamond', 'flower']);
-        emitter.gravity = 200;
-        emitter.start(false, 5000, 20);
-    },
-
-    update: function() {
-
-    },
-
-    particleBurst: function() {
-
-    },
-    
-    ending: function() {
-
-    },
-}
 game.state.add('main', mainState);
-game.state.add('goodEnding', goodEndingState);
 game.state.start('main');
