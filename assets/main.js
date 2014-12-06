@@ -37,7 +37,6 @@ var mainState = {
         game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
     },
 
-
     create: function() {
         if (!game.device.desktop) { 
             game.input.onDown.add(this.fullScreen, this); 
@@ -47,7 +46,6 @@ var mainState = {
 
         game.physics.startSystem(Phaser.Physics.ARCADE);
         game.stage.backgroundColor = '#018E0E';
-        // game.physics.p2.defaultRestitution = 0.8;
 
         map = game.add.tilemap('map');
 
@@ -57,7 +55,7 @@ var mainState = {
         layer.resizeWorld();
         map.setCollisionBetween(1, 12);
 
-        player = game.add.sprite(200, 200, 'player');
+        player = game.add.sprite(100, 100, 'player');
         game.physics.enable(player);
         player.body.fixedRotation = true;
         player.body.collideWorldBounds = true;
@@ -179,7 +177,7 @@ var mainState = {
     },
 
     restart: function() {
-        player.reset(200, 200);
+        player.reset(100, 100);
     },
 
     goodGame: function() {
