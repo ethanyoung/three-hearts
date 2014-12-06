@@ -19,11 +19,9 @@ var keyDoorPairs;
 
 var mainState = {
     preload: function() {
-        game.load.tilemap('map', 'assets/tilemaps/maps/collision_test.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap('map', 'assets/tilemaps/maps/main.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.image('player', 'assets/player.png');
-        game.load.image('ground_1x1', 'assets/tilemaps/tiles/walls_1x1.png');
-        game.load.image('walls_1x2', 'assets/tilemaps/tiles/walls_1x1.png');
-        game.load.image('tiles2', 'assets/tilemaps/tiles/walls_1x1.png');
+        game.load.image('walls_1x1', 'assets/tilemaps/tiles/walls_1x1.png');
         game.load.image('heart', 'assets/heart.png');
         game.load.image('enemy', 'assets/enemy.png');   
         game.load.image('flower', 'assets/flower.png');
@@ -53,9 +51,7 @@ var mainState = {
 
         map = game.add.tilemap('map');
 
-        map.addTilesetImage('ground_1x1');
-        map.addTilesetImage('walls_1x2');
-        map.addTilesetImage('tiles2');
+        map.addTilesetImage('walls_1x1');
 
         layer = map.createLayer('Tile Layer 1');
         layer.resizeWorld();
