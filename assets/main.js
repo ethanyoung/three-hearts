@@ -1,5 +1,6 @@
 var game = new Phaser.Game(320, 480, Phaser.CANVAS, 'game-screen');
 
+var score;
 var player;
 var cursors;
 var map;
@@ -11,6 +12,10 @@ var up = false;
 var right = false;
 var down = false;
 var left= false;
+
+var keys;
+var doors;
+var keyDoorPairs;
 
 var mainState = {
     preload: function() {
@@ -24,6 +29,8 @@ var mainState = {
         game.load.image('flower', 'assets/flower.png');
         game.load.image('diamond', 'assets/diamond.png');
         game.load.image('star', 'assets/star_particle.png');
+        game.load.image('key', 'assets/key.png');
+        game.load.image('door', 'assets/door.png');
 
         game.load.spritesheet('buttonvertical', 'assets/buttons/button-vertical.png',64,64);
         game.load.spritesheet('buttonhorizontal', 'assets/buttons/button-horizontal.png',96,64);
@@ -66,10 +73,21 @@ var mainState = {
 
         enemies = game.add.group();
         enemies.enableBody = true;
-
         var enemy = enemies.create(600, 200, 'enemy');
         enemy.body.velocity.y = 200;
         enemy.body.bounce.set(1);
+
+        keyDoorPairs = {};
+        keys = game.add.group();
+        keys.enableBody = true;
+        var key = keys.create(610, 200, 'key');
+
+        doors = game.add.group();
+        doors.enableBody = true;
+        var door = doors.create(600, 370, 'door');
+        door.body.immovable = true;
+
+        keyDoorPairs[key] = door;
 
         game.camera.follow(player);
 
@@ -106,7 +124,6 @@ var mainState = {
         buttonright.events.onInputOut.add(function(){right=false;});
         buttonright.events.onInputDown.add(function(){right=true;});
         buttonright.events.onInputUp.add(function(){right=false;});
-
     },
 
     update: function() {
@@ -114,6 +131,8 @@ var mainState = {
         game.physics.arcade.collide(enemies, layer);
         game.physics.arcade.collide(hearts, layer);
         game.physics.arcade.overlap(player, enemies, this.gameOver, null, this);
+        game.physics.arcade.collide(player, doors);
+        game.physics.arcade.overlap(player, keys, this.getKey, null, this);
 
         player.body.velocity.x = 0;
         player.body.velocity.y = 0;
@@ -131,7 +150,6 @@ var mainState = {
         else if (cursors.down.isDown || down) {
             player.body.velocity.y = 200;
         }
-
 
         this.checkHearts();
 
@@ -177,10 +195,14 @@ var mainState = {
         text.text = 'Go to the EAST!';
     },
 
-
     fullScreen: function() {
         game.scale.startFullScreen(false);
     },
+
+    getKey: function(player, key) {
+        key.kill();
+        keyDoorPairs[key].kill();
+    }
 };
 
 game.state.add('main', mainState);
