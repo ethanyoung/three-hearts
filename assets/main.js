@@ -30,13 +30,17 @@ var enemyPositions =
                     ];
 var emitterPosition = new Phaser.Point(1400, 32);
 var keyPositions = [ new Phaser.Point(700, 160)];
-var doorPositions = [ new Phaser.Point(165, 590)];
+var doorPositions = [ 
+                        new Phaser.Point(7 * 32, 18 * 32), 
+                        new Phaser.Point(7 * 32, 19 * 32) 
+                    ];
 
 var mainState = {
     preload: function() {
         game.load.tilemap('map', 'assets/tilemaps/maps/main.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.image('player', 'assets/player.png');
         game.load.image('walls_1x1', 'assets/tilemaps/tiles/walls_1x1.png');
+        game.load.image('ground', 'assets/tilemaps/tiles/ground.png');
         game.load.image('heart', 'assets/heart.png');
         game.load.image('enemy', 'assets/enemy.png');   
         game.load.image('flower', 'assets/flower.png');
@@ -65,10 +69,11 @@ var mainState = {
         map = game.add.tilemap('map');
 
         map.addTilesetImage('walls_1x1');
+        map.addTilesetImage('ground');
 
         layer = map.createLayer('Tile Layer 1');
         layer.resizeWorld();
-        map.setCollisionBetween(1, 12);
+        map.setCollisionBetween(2, 3);
 
         player = game.add.sprite(respawnPosition.x, respawnPosition.y, 'player');
         game.physics.enable(player);
@@ -94,10 +99,15 @@ var mainState = {
 
         doors = game.add.group();
         doors.enableBody = true;
-        var door = doors.create(doorPositions[0].x, doorPositions[0].y, 'door');
-        door.body.immovable = true;
 
-        keyDoorPairs[key] = door;
+        doorsArray = [];
+        for (var i = 0; i < doorPositions.length; i++) {
+            var door = doors.create(doorPositions[i].x, doorPositions[i].y, 'door');
+            door.body.immovable = true;
+            doorsArray.push(door);
+        }
+
+        keyDoorPairs[key] = doorsArray;
 
         game.camera.follow(player);
 
@@ -214,7 +224,9 @@ var mainState = {
 
     getKey: function(player, key) {
         key.kill();
-        keyDoorPairs[key].kill();
+        keyDoorPairs[key].forEach(function(door) { 
+            door.kill()
+        });
     }
 };
 
