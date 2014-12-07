@@ -17,6 +17,21 @@ var keys;
 var doors;
 var keyDoorPairs;
 
+var respawnPosition = new Phaser.Point(180, 60);
+var heartPositions = 
+                    [
+                        new Phaser.Point(50, 590),
+                        new Phaser.Point(250, 590),
+                        new Phaser.Point(480, 50)
+                    ];
+var enemyPositions = 
+                    [
+                        new Phaser.Point(480, 170)
+                    ];
+var emitterPosition = new Phaser.Point(1400, 32);
+var keyPositions = [ new Phaser.Point(700, 160)];
+var doorPositions = [ new Phaser.Point(165, 590)];
+
 var mainState = {
     preload: function() {
         game.load.tilemap('map', 'assets/tilemaps/maps/main.json', null, Phaser.Tilemap.TILED_JSON);
@@ -45,7 +60,7 @@ var mainState = {
         score = 0;
 
         game.physics.startSystem(Phaser.Physics.ARCADE);
-        game.stage.backgroundColor = '#018E0E';
+        game.stage.backgroundColor = '#2d2d2d';
 
         map = game.add.tilemap('map');
 
@@ -55,30 +70,31 @@ var mainState = {
         layer.resizeWorld();
         map.setCollisionBetween(1, 12);
 
-        player = game.add.sprite(100, 100, 'player');
+        player = game.add.sprite(respawnPosition.x, respawnPosition.y, 'player');
         game.physics.enable(player);
         player.body.fixedRotation = true;
         player.body.collideWorldBounds = true;
         hearts = game.add.group();
         hearts.enableBody = true;
-        hearts.create(500, 500, 'heart');
-        hearts.create(300, 150, 'heart');
-        hearts.create(600, 100, 'heart');
+
+        for (var i = 0; i < heartPositions.length; i++) {
+            hearts.create(heartPositions[i].x, heartPositions[i].y, 'heart');
+        }
 
         enemies = game.add.group();
         enemies.enableBody = true;
-        var enemy = enemies.create(600, 200, 'enemy');
-        enemy.body.velocity.y = 200;
+        var enemy = enemies.create(enemyPositions[0].x, enemyPositions[0].y, 'enemy');
+        enemy.body.velocity.x = 200;
         enemy.body.bounce.set(1);
 
         keyDoorPairs = {};
         keys = game.add.group();
         keys.enableBody = true;
-        var key = keys.create(610, 200, 'key');
+        var key = keys.create(keyPositions[0].x, keyPositions[0].y, 'key');
 
         doors = game.add.group();
         doors.enableBody = true;
-        var door = doors.create(600, 370, 'door');
+        var door = doors.create(doorPositions[0].x, doorPositions[0].y, 'door');
         door.body.immovable = true;
 
         keyDoorPairs[key] = door;
@@ -148,7 +164,6 @@ var mainState = {
         this.checkHearts();
 
         if (score == 3 && emitter == null) {
-            // game.state.start('goodEnding');
             this.goodGame();
 
         }
@@ -162,6 +177,10 @@ var mainState = {
                 heart.kill();
             }
         }, this, true);
+    },
+
+    render: function() {
+        game.debug.spriteInfo(player, 32, 32);
     },
 
     checkOverlap: function(spriteA, spriteB) {
