@@ -19,11 +19,9 @@ var keyDoorPairs;
 
 var mainState = {
     preload: function() {
-        game.load.tilemap('map', 'assets/tilemaps/maps/collision_test.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap('map', 'assets/tilemaps/maps/main.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.image('player', 'assets/player.png');
-        game.load.image('ground_1x1', 'assets/tilemaps/tiles/walls_1x1.png');
-        game.load.image('walls_1x2', 'assets/tilemaps/tiles/walls_1x1.png');
-        game.load.image('tiles2', 'assets/tilemaps/tiles/walls_1x1.png');
+        game.load.image('walls_1x1', 'assets/tilemaps/tiles/walls_1x1.png');
         game.load.image('heart', 'assets/heart.png');
         game.load.image('enemy', 'assets/enemy.png');   
         game.load.image('flower', 'assets/flower.png');
@@ -39,7 +37,6 @@ var mainState = {
         game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
     },
 
-
     create: function() {
         if (!game.device.desktop) { 
             game.input.onDown.add(this.fullScreen, this); 
@@ -49,19 +46,16 @@ var mainState = {
 
         game.physics.startSystem(Phaser.Physics.ARCADE);
         game.stage.backgroundColor = '#018E0E';
-        // game.physics.p2.defaultRestitution = 0.8;
 
         map = game.add.tilemap('map');
 
-        map.addTilesetImage('ground_1x1');
-        map.addTilesetImage('walls_1x2');
-        map.addTilesetImage('tiles2');
+        map.addTilesetImage('walls_1x1');
 
         layer = map.createLayer('Tile Layer 1');
         layer.resizeWorld();
         map.setCollisionBetween(1, 12);
 
-        player = game.add.sprite(200, 200, 'player');
+        player = game.add.sprite(100, 100, 'player');
         game.physics.enable(player);
         player.body.fixedRotation = true;
         player.body.collideWorldBounds = true;
@@ -183,7 +177,7 @@ var mainState = {
     },
 
     restart: function() {
-        player.reset(200, 200);
+        player.reset(100, 100);
     },
 
     goodGame: function() {
