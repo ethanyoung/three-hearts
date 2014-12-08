@@ -64,7 +64,6 @@ var mainState = {
         score = 0;
 
         game.physics.startSystem(Phaser.Physics.ARCADE);
-        game.stage.backgroundColor = '#2d2d2d';
 
         map = game.add.tilemap('map');
 
