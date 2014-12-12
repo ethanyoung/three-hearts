@@ -1,5 +1,10 @@
 var game = new Phaser.Game(320, 480, Phaser.CANVAS, 'game-screen');
 
+var NORTH = 0;
+var SOUTH = 1;
+var EAST = 2;
+var WEST = 3
+
 var score;
 var player;
 var cursors;
@@ -11,7 +16,8 @@ var emitter;
 var up = false;
 var right = false;
 var down = false;
-var left= false;
+var left = false;
+var face = NORTH;
 
 var keys;
 var doors;
@@ -38,7 +44,6 @@ var doorPositions = [
 var mainState = {
     preload: function() {
         game.load.tilemap('map', 'assets/tilemaps/maps/main.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.image('player', 'assets/player.png');
         game.load.image('walls_1x1', 'assets/tilemaps/tiles/walls_1x1.png');
         game.load.image('ground', 'assets/tilemaps/tiles/ground.png');
         game.load.image('heart', 'assets/heart.png');
@@ -49,6 +54,7 @@ var mainState = {
         game.load.image('key', 'assets/key.png');
         game.load.image('door', 'assets/door.png');
 
+        game.load.spritesheet('player', 'assets/player.png', 28, 32);
         game.load.spritesheet('buttonvertical', 'assets/buttons/button-vertical.png',64,64);
         game.load.spritesheet('buttonhorizontal', 'assets/buttons/button-horizontal.png',96,64);
 
@@ -78,9 +84,13 @@ var mainState = {
         game.physics.enable(player);
         player.body.fixedRotation = true;
         player.body.collideWorldBounds = true;
+        player.animations.add('walk_down', [1, 2], 5, true);
+        player.animations.add('walk_up', [4, 5], 5, true);
+        player.animations.add('walk_left', [7, 8], 5, true);
+        player.animations.add('walk_right', [10, 11], 5, true);
+
         hearts = game.add.group();
         hearts.enableBody = true;
-
         for (var i = 0; i < heartPositions.length; i++) {
             hearts.create(heartPositions[i].x, heartPositions[i].y, 'heart');
         }
@@ -157,17 +167,46 @@ var mainState = {
         player.body.velocity.y = 0;
 
         if (cursors.left.isDown || left) {
+            face = WEST;
             player.body.velocity.x = -200;
+            player.animations.play('walk_left');
         }
+
         else if (cursors.right.isDown || right) {
+            face = EAST;
             player.body.velocity.x = 200;
+            player.animations.play('walk_right');
         }
 
         else if (cursors.up.isDown || up) {
+            face = NORTH;
             player.body.velocity.y = -200;
+            player.animations.play('walk_up');
         }
+
         else if (cursors.down.isDown || down) {
+            face = SOUTH;
             player.body.velocity.y = 200;
+            player.animations.play('walk_down');
+        }
+
+        else {
+            
+            player.animations.stop();
+            switch(face) {
+                case NORTH:
+                    player.frame = 3;
+                    break;
+                case SOUTH:
+                    player.frame = 0;
+                    break;
+                case WEST:
+                    player.frame = 6;
+                    break;
+                case EAST:
+                    player.frame = 9;
+                    break;
+            }
         }
 
         this.checkHearts();
