@@ -1,5 +1,10 @@
 var game = new Phaser.Game(320, 480, Phaser.CANVAS, 'game-screen');
 
+var NORTH = 0;
+var SOUTH = 1;
+var EAST = 2;
+var WEST = 3
+
 var score;
 var player;
 var cursors;
@@ -11,7 +16,8 @@ var emitter;
 var up = false;
 var right = false;
 var down = false;
-var left= false;
+var left = false;
+var face = NORTH;
 
 var keys;
 var doors;
@@ -161,25 +167,46 @@ var mainState = {
         player.body.velocity.y = 0;
 
         if (cursors.left.isDown || left) {
+            face = WEST;
             player.body.velocity.x = -200;
             player.animations.play('walk_left');
         }
+
         else if (cursors.right.isDown || right) {
+            face = EAST;
             player.body.velocity.x = 200;
             player.animations.play('walk_right');
         }
 
         else if (cursors.up.isDown || up) {
+            face = NORTH;
             player.body.velocity.y = -200;
             player.animations.play('walk_up');
         }
+
         else if (cursors.down.isDown || down) {
+            face = SOUTH;
             player.body.velocity.y = 200;
             player.animations.play('walk_down');
         }
 
         else {
+            
             player.animations.stop();
+            switch(face) {
+                case NORTH:
+                    player.frame = 3;
+                    break;
+                case SOUTH:
+                    player.frame = 0;
+                    break;
+                case WEST:
+                    player.frame = 6;
+                    break;
+                case EAST:
+                    player.frame = 9;
+                    break;
+            }
         }
 
         this.checkHearts();
