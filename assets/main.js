@@ -38,7 +38,6 @@ var doorPositions = [
 var mainState = {
     preload: function() {
         game.load.tilemap('map', 'assets/tilemaps/maps/main.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.image('player', 'assets/player.png');
         game.load.image('walls_1x1', 'assets/tilemaps/tiles/walls_1x1.png');
         game.load.image('ground', 'assets/tilemaps/tiles/ground.png');
         game.load.image('heart', 'assets/heart.png');
@@ -49,6 +48,7 @@ var mainState = {
         game.load.image('key', 'assets/key.png');
         game.load.image('door', 'assets/door.png');
 
+        game.load.spritesheet('player', 'assets/player.png', 28, 32);
         game.load.spritesheet('buttonvertical', 'assets/buttons/button-vertical.png',64,64);
         game.load.spritesheet('buttonhorizontal', 'assets/buttons/button-horizontal.png',96,64);
 
@@ -158,16 +158,20 @@ var mainState = {
 
         if (cursors.left.isDown || left) {
             player.body.velocity.x = -200;
+            player.frame = 2;
         }
         else if (cursors.right.isDown || right) {
             player.body.velocity.x = 200;
+            player.frame = 3;
         }
 
         else if (cursors.up.isDown || up) {
             player.body.velocity.y = -200;
+            player.frame = 1;
         }
         else if (cursors.down.isDown || down) {
             player.body.velocity.y = 200;
+            player.frame = 0;
         }
 
         this.checkHearts();
