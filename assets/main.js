@@ -78,9 +78,13 @@ var mainState = {
         game.physics.enable(player);
         player.body.fixedRotation = true;
         player.body.collideWorldBounds = true;
+        player.animations.add('walk_down', [1, 2], 5, true);
+        player.animations.add('walk_up', [4, 5], 5, true);
+        player.animations.add('walk_left', [7, 8], 5, true);
+        player.animations.add('walk_right', [10, 11], 5, true);
+
         hearts = game.add.group();
         hearts.enableBody = true;
-
         for (var i = 0; i < heartPositions.length; i++) {
             hearts.create(heartPositions[i].x, heartPositions[i].y, 'heart');
         }
@@ -158,20 +162,24 @@ var mainState = {
 
         if (cursors.left.isDown || left) {
             player.body.velocity.x = -200;
-            player.frame = 2;
+            player.animations.play('walk_left');
         }
         else if (cursors.right.isDown || right) {
             player.body.velocity.x = 200;
-            player.frame = 3;
+            player.animations.play('walk_right');
         }
 
         else if (cursors.up.isDown || up) {
             player.body.velocity.y = -200;
-            player.frame = 1;
+            player.animations.play('walk_up');
         }
         else if (cursors.down.isDown || down) {
             player.body.velocity.y = 200;
-            player.frame = 0;
+            player.animations.play('walk_down');
+        }
+
+        else {
+            player.animations.stop();
         }
 
         this.checkHearts();
