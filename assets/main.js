@@ -27,10 +27,8 @@ var right = false;
 var down = false;
 var left = false;
 var face = SOUTH;
-
-var keysArray = [];
 var doors;
-var keyDoorPairs;
+var keysArray = [];
 
 var respawnPosition = new Phaser.Point(180, 60);
 var heartPositions = 
@@ -119,11 +117,12 @@ var mainState = {
 	            door.body.immovable = true;
 	            doorSet.push(door);
         	}
+
             var key = new Key(game, keyPositions[i].x, keyPositions[i].y, doorSet);
             game.physics.enable(key);
             keysArray.push(key);
         }
-        console.log(keysArray);
+
         game.camera.follow(player);
 
         cursors = game.input.keyboard.createCursorKeys();
