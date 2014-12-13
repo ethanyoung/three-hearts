@@ -44,7 +44,7 @@ var doorPositions = [
 var mainState = {
     preload: function() {
         game.load.tilemap('map', 'assets/tilemaps/maps/main.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.image('walls_1x1', 'assets/tilemaps/tiles/walls_1x1.png');
+        game.load.image('tiles', 'assets/tilemaps/tiles/tiles.png');
         game.load.image('ground', 'assets/tilemaps/tiles/ground.png');
         game.load.image('heart', 'assets/heart.png');
         game.load.image('enemy', 'assets/enemy.png');   
@@ -73,12 +73,12 @@ var mainState = {
 
         map = game.add.tilemap('map');
 
-        map.addTilesetImage('walls_1x1');
+        map.addTilesetImage('tiles');
         map.addTilesetImage('ground');
 
         layer = map.createLayer('Tile Layer 1');
         layer.resizeWorld();
-        map.setCollisionBetween(2, 3);
+        map.setCollisionBetween(1, 6);
 
         player = game.add.sprite(respawnPosition.x, respawnPosition.y, 'player');
         game.physics.enable(player);
