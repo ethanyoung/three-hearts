@@ -30,7 +30,7 @@ var face = SOUTH;
 var doors;
 var keysArray = [];
 
-var respawnPosition = new Phaser.Point(180, 60);
+var respawnPosition = createPoint(5, 2);
 var heartPositions =  [
     new Phaser.Point(1 * 32, 18.5 * 32),
     new Phaser.Point(8.5 * 32, 18.5 * 32),
@@ -303,3 +303,7 @@ var mainState = {
 
 game.state.add('main', mainState);
 game.state.start('main');
+
+function createPoint(tileIndexX , tileIndexY) {
+    return new Phaser.Point(tileIndexX * 32, tileIndexY * 32);
+}
