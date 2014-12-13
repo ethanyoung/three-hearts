@@ -248,10 +248,10 @@ var mainState = {
         score += 1;
         text.text = 'You\'ve got ' + score + ' hearts.';
         heart.body.enable = false;
-        tweenTime = Phaser.Timer.SECOND * 1;
-        game.add.tween(heart.scale).to( { x: 3, y: 3 }, tweenTime, Phaser.Easing.Linear.None, true, 0, 1000, true);
+        var tweenTime = Phaser.Timer.SECOND * 0.5;
+        game.add.tween(heart.scale).to( { x: 2, y: 2 }, tweenTime, Phaser.Easing.Linear.None, true, 0, 1000, true);
         game.add.tween(heart).to( { alpha: 0 }, tweenTime, Phaser.Easing.Linear.None, true, 0, 1000, true);
-        game.add.tween(heart.position).to( { x: heart.position.x - 2 * heart.width / 2, y: heart.position.y - 2 * heart.height / 2}, tweenTime, Phaser.Easing.Linear.None, true, 0, 1000, true );
+        game.add.tween(heart.position).to( { x: heart.position.x - heart.width / 2, y: heart.position.y - heart.height / 2}, tweenTime, Phaser.Easing.Linear.None, true, 0, 1000, true );
         game.time.events.add(tweenTime, function() { heart.kill(); }, this);
     },
 
@@ -291,12 +291,20 @@ var mainState = {
     getKey: function(player, key) {
         key.kill();
 
+        var tweenTime = Phaser.Timer.SECOND * 0.5;
         for (var i = 0; i < key.doorSet.length; i++) {
-            doorSet = key.doorSet[i];
-            doorSet.kill();
+            var door = key.doorSet[i];
+            game.add.tween(door.scale).to( { x: 0, y: 0 }, tweenTime, Phaser.Easing.Linear.None, true, 0, 1000, true);
+            game.add.tween(door.position).to( { x: door.position.x + door.width / 2, y: door.position.y + door.height / 2}, tweenTime, Phaser.Easing.Linear.None, true, 0, 1000, true );
         }
 
-    }
+        game.time.events.add(tweenTime, function() {
+            key.doorSet.forEach(function(door) {
+            door.kill();
+            });
+        }, this);
+
+    },
 };
 
 game.state.add('main', mainState);
