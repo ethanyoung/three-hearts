@@ -1,3 +1,12 @@
+Key = function (game, x, y, doorSet) {
+    Phaser.Sprite.call(this, game, x, y, 'key');
+    this.doorSet = doorSet;
+    game.add.existing(this);
+};
+
+Key.prototype = Object.create(Phaser.Sprite.prototype);
+Key.prototype.constructor = Key;
+
 var game = new Phaser.Game(320, 480, Phaser.CANVAS, 'game-screen');
 
 var NORTH = 0;
@@ -17,29 +26,42 @@ var up = false;
 var right = false;
 var down = false;
 var left = false;
-var face = NORTH;
-
-var keys;
+var face = SOUTH;
 var doors;
-var keyDoorPairs;
+var keysArray = [];
 
 var respawnPosition = new Phaser.Point(180, 60);
-var heartPositions = 
-                    [
-                        new Phaser.Point(50, 590),
-                        new Phaser.Point(250, 590),
-                        new Phaser.Point(480, 50)
-                    ];
-var enemyPositions = 
-                    [
-                        new Phaser.Point(480, 170)
-                    ];
+var heartPositions =  [
+    new Phaser.Point(1 * 32, 18.5 * 32),
+    new Phaser.Point(8.5 * 32, 18.5 * 32),
+    new Phaser.Point(3 * 32, 36 * 32)
+];
+var enemyPositions = [
+    new Phaser.Point(480, 170),
+    new Phaser.Point(25 * 32, 23 * 32),
+    new Phaser.Point(4 * 32, 34 * 34)
+];
 var emitterPosition = new Phaser.Point(1400, 32);
-var keyPositions = [ new Phaser.Point(700, 160)];
+var keyPositions = [ 
+    new Phaser.Point(2 * 32, 15 * 32),
+    new Phaser.Point(23 * 32, 5 * 32),
+    new Phaser.Point(1 * 32, 25.5 * 32)
+];
 var doorPositions = [ 
-                        new Phaser.Point(7 * 32, 18 * 32), 
-                        new Phaser.Point(7 * 32, 19 * 32) 
-                    ];
+    [   
+        new Phaser.Point(8 * 32, 17 * 32), 
+        new Phaser.Point(9 * 32, 17 * 32)],
+    [
+        new Phaser.Point(25 * 32, 20 * 32),
+        new Phaser.Point(26 * 32, 20 * 32),
+        new Phaser.Point(27 * 32, 20 * 32),
+        new Phaser.Point(3 * 32, 18 * 32),
+        new Phaser.Point(3 * 32, 19 * 32)],
+    [
+        new Phaser.Point(40 * 32, 14 * 32),
+        new Phaser.Point(40 * 32, 15 * 32),
+        new Phaser.Point(40 * 32, 16 * 32)]
+];
 
 var mainState = {
     preload: function() {
@@ -95,26 +117,27 @@ var mainState = {
 
         enemies = game.add.group();
         enemies.enableBody = true;
-        var enemy = enemies.create(enemyPositions[0].x, enemyPositions[0].y, 'enemy');
-        enemy.body.velocity.x = 200;
-        enemy.body.bounce.set(1);
-
-        keyDoorPairs = {};
-        keys = game.add.group();
-        keys.enableBody = true;
-        var key = keys.create(keyPositions[0].x, keyPositions[0].y, 'key');
+        for (var i = 0; i < enemyPositions.length; i++) {
+            var enemy = enemies.create(enemyPositions[i].x, enemyPositions[i].y, 'enemy');
+            enemy.body.velocity.x = 200;
+            enemy.body.bounce.set(1);
+        }
 
         doors = game.add.group();
         doors.enableBody = true;
-
-        doorsArray = [];
         for (var i = 0; i < doorPositions.length; i++) {
-            var door = doors.create(doorPositions[i].x, doorPositions[i].y, 'door');
-            door.body.immovable = true;
-            doorsArray.push(door);
-        }
+        	var doorPosition = doorPositions[i];
+        	var doorSet = [];
+        	for (var j = 0; j < doorPosition.length; j++) {
+	            var door = doors.create(doorPosition[j].x, doorPosition[j].y, 'door');
+	            door.body.immovable = true;
+	            doorSet.push(door);
+        	}
 
-        keyDoorPairs[key] = doorsArray;
+            var key = new Key(game, keyPositions[i].x, keyPositions[i].y, doorSet);
+            game.physics.enable(key);
+            keysArray.push(key);
+        }
 
         game.camera.follow(player);
 
@@ -159,7 +182,11 @@ var mainState = {
         game.physics.arcade.collide(hearts, layer);
         game.physics.arcade.overlap(player, enemies, this.gameOver, null, this);
         game.physics.arcade.collide(player, doors);
-        game.physics.arcade.overlap(player, keys, this.getKey, null, this);
+
+        for (var i = 0; i < keysArray.length; i++) {
+
+            game.physics.arcade.overlap(player, keysArray[i], this.getKey, null, this);
+        }
 
         player.body.velocity.x = 0;
         player.body.velocity.y = 0;
@@ -260,9 +287,12 @@ var mainState = {
 
     getKey: function(player, key) {
         key.kill();
-        keyDoorPairs[key].forEach(function(door) { 
-            door.kill()
-        });
+
+        for (var i = 0; i < key.doorSet.length; i++) {
+            doorSet = key.doorSet[i];
+            doorSet.kill();
+        }
+
     }
 };
 
