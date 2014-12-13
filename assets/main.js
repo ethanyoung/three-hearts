@@ -31,23 +31,37 @@ var doors;
 var keysArray = [];
 
 var respawnPosition = new Phaser.Point(180, 60);
-var heartPositions = 
-                    [
-                        new Phaser.Point(50, 590),
-                        new Phaser.Point(250, 590),
-                        new Phaser.Point(480, 50)
-                    ];
-var enemyPositions = 
-                    [
-                        new Phaser.Point(480, 170)
-                    ];
+var heartPositions =  [
+    new Phaser.Point(1 * 32, 18.5 * 32),
+    new Phaser.Point(8.5 * 32, 18.5 * 32),
+    new Phaser.Point(3 * 32, 36 * 32)
+];
+var enemyPositions = [
+    new Phaser.Point(480, 170),
+    new Phaser.Point(25 * 32, 23 * 32),
+    new Phaser.Point(4 * 32, 34 * 34)
+];
 var emitterPosition = new Phaser.Point(1400, 32);
-var keyPositions = [ new Phaser.Point(3 * 32, 16*32), new Phaser.Point(700, 160)];
+var keyPositions = [ 
+    new Phaser.Point(2 * 32, 15 * 32),
+    new Phaser.Point(22 * 32, 5 * 32),
+    new Phaser.Point(1 * 32, 25.5 * 32)
+];
 var doorPositions = [ 
-                        [new Phaser.Point(7 * 32, 18 * 32), 
-                        new Phaser.Point(7 * 32, 19 * 32)],
-                        []
-                    ];
+    [   
+        new Phaser.Point(8 * 32, 17 * 32), 
+        new Phaser.Point(9 * 32, 17 * 32)],
+    [
+        new Phaser.Point(25 * 32, 20 * 32),
+        new Phaser.Point(26 * 32, 20 * 32),
+        new Phaser.Point(27 * 32, 20 * 32),
+        new Phaser.Point(3 * 32, 18 * 32),
+        new Phaser.Point(3 * 32, 19 * 32)],
+    [
+        new Phaser.Point(40 * 32, 14 * 32),
+        new Phaser.Point(40 * 32, 15 * 32),
+        new Phaser.Point(40 * 32, 16 * 32)]
+];
 
 var mainState = {
     preload: function() {
@@ -103,9 +117,11 @@ var mainState = {
 
         enemies = game.add.group();
         enemies.enableBody = true;
-        var enemy = enemies.create(enemyPositions[0].x, enemyPositions[0].y, 'enemy');
-        enemy.body.velocity.x = 200;
-        enemy.body.bounce.set(1);
+        for (var i = 0; i < enemyPositions.length; i++) {
+            var enemy = enemies.create(enemyPositions[i].x, enemyPositions[i].y, 'enemy');
+            enemy.body.velocity.x = 200;
+            enemy.body.bounce.set(1);
+        }
 
         doors = game.add.group();
         doors.enableBody = true;
