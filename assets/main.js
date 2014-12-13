@@ -44,7 +44,7 @@ var enemyPositions = [
 var emitterPosition = new Phaser.Point(1400, 32);
 var keyPositions = [ 
     new Phaser.Point(2 * 32, 15 * 32),
-    new Phaser.Point(22 * 32, 5 * 32),
+    new Phaser.Point(23 * 32, 5 * 32),
     new Phaser.Point(1 * 32, 25.5 * 32)
 ];
 var doorPositions = [ 
