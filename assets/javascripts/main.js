@@ -187,9 +187,9 @@ var mainState = {
         game.physics.arcade.collide(hearts, layer);
         game.physics.arcade.overlap(player, enemies, this.gameOver, null, this);
         game.physics.arcade.collide(player, doors);
+        game.physics.arcade.overlap(player, hearts, this.getHeart, null, this);
 
         for (var i = 0; i < keysArray.length; i++) {
-
             game.physics.arcade.overlap(player, keysArray[i], this.getKey, null, this);
         }
 
@@ -239,22 +239,17 @@ var mainState = {
             }
         }
 
-        this.checkHearts();
-
         if (score == 3 && emitter == null) {
             this.goodGame();
 
         }
     },
 
-    checkHearts: function() {
-        hearts.forEach(function(heart){
-            if (this.checkOverlap(player, heart)) {
-                score += 1;
-                text.text = 'You\'ve got ' + score + ' hearts.';
-                heart.kill();
-            }
-        }, this, true);
+    getHeart: function(player, heart) {
+        score += 1;
+        text.text = 'You\'ve got ' + score + ' hearts.';
+        heart.kill();
+        // game.add.tween(heart.scale).to( { x: 3, y: 3 }, 2000, Phaser.Easing.Linear.None, true, 0, 1000, true);
     },
 
     // render: function() {
