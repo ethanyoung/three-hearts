@@ -32,37 +32,37 @@ var keysArray = [];
 
 var respawnPosition = createPoint(5, 2);
 var heartPositions =  [
-    new Phaser.Point(1 * 32, 18.5 * 32),
-    new Phaser.Point(8.5 * 32, 18.5 * 32),
-    new Phaser.Point(3 * 32, 36 * 32)
+    createPoint(1, 18.5),
+    createPoint(8.5, 18.5),
+    createPoint(3, 36)
 ];
 var enemyPositions = [
-    new Phaser.Point(27 * 32, 20 * 32),
-    new Phaser.Point(25 * 32, 20 * 32),
-    new Phaser.Point(4 * 32, 13 * 32),
-    new Phaser.Point(25 * 32, 23 * 32),
-    new Phaser.Point(4 * 32, 34 * 34)
+    createPoint(27, 20),
+    createPoint(25, 20),
+    createPoint(4, 13),
+    createPoint(25, 23),
+    createPoint(4, 34 * 34)
 ];
-var emitterPosition = new Phaser.Point(1400, 32);
+var emitterPosition = createPoint(1400, 32);
 var keyPositions = [ 
-    new Phaser.Point(2 * 32, 15 * 32),
-    new Phaser.Point(23 * 32, 5 * 32),
-    new Phaser.Point(1 * 32, 25.5 * 32)
+    createPoint(2, 15),
+    createPoint(23, 5),
+    createPoint(1, 25.5)
 ];
 var doorPositions = [ 
     [   
-        new Phaser.Point(8 * 32, 17 * 32), 
-        new Phaser.Point(9 * 32, 17 * 32)],
+        createPoint(8, 17), 
+        createPoint(9, 17)],
     [
-        new Phaser.Point(25 * 32, 20 * 32),
-        new Phaser.Point(26 * 32, 20 * 32),
-        new Phaser.Point(27 * 32, 20 * 32),
-        new Phaser.Point(3 * 32, 18 * 32),
-        new Phaser.Point(3 * 32, 19 * 32)],
+        createPoint(25, 20),
+        createPoint(26, 20),
+        createPoint(27, 20),
+        createPoint(3, 18),
+        createPoint(3, 19)],
     [
-        new Phaser.Point(40 * 32, 14 * 32),
-        new Phaser.Point(40 * 32, 15 * 32),
-        new Phaser.Point(40 * 32, 16 * 32)]
+        createPoint(40, 14),
+        createPoint(40, 15),
+        createPoint(40, 16)]
 ];
 
 var mainState = {
@@ -274,7 +274,7 @@ var mainState = {
     },
 
     restart: function() {
-        player.reset(100, 100);
+        player.reset(respawnPosition.x, respawnPosition.y);
     },
 
     goodGame: function() {
