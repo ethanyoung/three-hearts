@@ -251,6 +251,7 @@ var mainState = {
         tweenTime = Phaser.Timer.SECOND * 1;
         game.add.tween(heart.scale).to( { x: 3, y: 3 }, tweenTime, Phaser.Easing.Linear.None, true, 0, 1000, true);
         game.add.tween(heart).to( { alpha: 0 }, tweenTime, Phaser.Easing.Linear.None, true, 0, 1000, true);
+        game.add.tween(heart.position).to( { x: heart.position.x - 2 * heart.width / 2, y: heart.position.y - 2 * heart.height / 2}, tweenTime, Phaser.Easing.Linear.None, true, 0, 1000, true );
         game.time.events.add(tweenTime, function() { heart.kill(); }, this);
     },
 
