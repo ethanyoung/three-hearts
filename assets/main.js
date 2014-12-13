@@ -225,9 +225,9 @@ var mainState = {
         }, this, true);
     },
 
-    render: function() {
-        game.debug.spriteInfo(player, 32, 32);
-    },
+    // render: function() {
+    //     game.debug.spriteInfo(player, 32, 32);
+    // },
 
     checkOverlap: function(spriteA, spriteB) {
         var boundsA = spriteA.getBounds();
