@@ -45,7 +45,6 @@ var mainState = {
     preload: function() {
         game.load.tilemap('map', 'assets/tilemaps/maps/main.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.image('tiles', 'assets/tilemaps/tiles/tiles.png');
-        game.load.image('ground', 'assets/tilemaps/tiles/ground.png');
         game.load.image('heart', 'assets/heart.png');
         game.load.image('enemy', 'assets/enemy.png');   
         game.load.image('flower', 'assets/flower.png');
@@ -74,7 +73,6 @@ var mainState = {
         map = game.add.tilemap('map');
 
         map.addTilesetImage('tiles');
-        map.addTilesetImage('ground');
 
         layer = map.createLayer('Tile Layer 1');
         layer.resizeWorld();
