@@ -37,7 +37,9 @@ var heartPositions =  [
     new Phaser.Point(3 * 32, 36 * 32)
 ];
 var enemyPositions = [
-    new Phaser.Point(480, 170),
+    new Phaser.Point(27 * 32, 20 * 32),
+    new Phaser.Point(25 * 32, 20 * 32),
+    new Phaser.Point(4 * 32, 13 * 32),
     new Phaser.Point(25 * 32, 23 * 32),
     new Phaser.Point(4 * 32, 34 * 34)
 ];
@@ -67,15 +69,15 @@ var mainState = {
     preload: function() {
         game.load.tilemap('map', 'assets/tilemaps/maps/main.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.image('tiles', 'assets/tilemaps/tiles/tiles.png');
-        game.load.image('heart', 'assets/heart.png');
-        game.load.image('enemy', 'assets/enemy.png');   
-        game.load.image('flower', 'assets/flower.png');
-        game.load.image('diamond', 'assets/diamond.png');
-        game.load.image('star', 'assets/star_particle.png');
-        game.load.image('key', 'assets/key.png');
-        game.load.image('door', 'assets/door.png');
+        game.load.image('heart', 'assets/sprites/heart.png');
+        game.load.image('enemy', 'assets/sprites/enemy.png');   
+        game.load.image('flower', 'assets/sprites/flower.png');
+        game.load.image('diamond', 'assets/sprites/diamond.png');
+        game.load.image('star', 'assets/sprites/star_particle.png');
+        game.load.image('key', 'assets/sprites/key.png');
+        game.load.image('door', 'assets/sprites/door.png');
 
-        game.load.spritesheet('player', 'assets/player.png', 28, 32);
+        game.load.spritesheet('player', 'assets/sprites/player.png', 28, 32);
         game.load.spritesheet('buttonvertical', 'assets/buttons/button-vertical.png',64,64);
         game.load.spritesheet('buttonhorizontal', 'assets/buttons/button-horizontal.png',96,64);
 
@@ -119,7 +121,10 @@ var mainState = {
         enemies.enableBody = true;
         for (var i = 0; i < enemyPositions.length; i++) {
             var enemy = enemies.create(enemyPositions[i].x, enemyPositions[i].y, 'enemy');
-            enemy.body.velocity.x = 200;
+            if (i >= 2) {
+                enemy.body.velocity.x = 200;
+            }
+
             enemy.body.bounce.set(1);
         }
 
