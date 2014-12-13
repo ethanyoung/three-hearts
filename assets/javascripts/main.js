@@ -241,15 +241,17 @@ var mainState = {
 
         if (score == 3 && emitter == null) {
             this.goodGame();
-
         }
     },
 
     getHeart: function(player, heart) {
         score += 1;
         text.text = 'You\'ve got ' + score + ' hearts.';
-        heart.kill();
-        // game.add.tween(heart.scale).to( { x: 3, y: 3 }, 2000, Phaser.Easing.Linear.None, true, 0, 1000, true);
+        heart.body.enable = false;
+        tweenTime = Phaser.Timer.SECOND * 1;
+        game.add.tween(heart.scale).to( { x: 3, y: 3 }, tweenTime, Phaser.Easing.Linear.None, true, 0, 1000, true);
+        game.add.tween(heart).to( { alpha: 0 }, tweenTime, Phaser.Easing.Linear.None, true, 0, 1000, true);
+        game.time.events.add(tweenTime, function() { heart.kill(); }, this);
     },
 
     // render: function() {
