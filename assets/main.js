@@ -109,23 +109,22 @@ var mainState = {
 
         doors = game.add.group();
         doors.enableBody = true;
-        doorsArray = [];
+        doorSetsArray = [];
         for (var i = 0; i < doorPositions.length; i++) {
         	var doorPosition = doorPositions[i];
-        	doorPartsArray = [];
+        	doorsArray = [];
         	for (var j = 0; j < doorPosition.length; j++) {
-	            var doorPart = doors.create(doorPosition[j].x, doorPosition[j].y, 'door');
-	            doorPart.body.immovable = true;
-	            doorPartsArray.push(doorPart);
+	            var door = doors.create(doorPosition[j].x, doorPosition[j].y, 'door');
+	            door.body.immovable = true;
+	            doorsArray.push(door);
         	}
-	        doorsArray.push(doorPartsArray);
+	        doorSetsArray.push(doorsArray);
         }
 
         keyDoorPairs = {};
         for (var i = 0; i < keysArray.length; i++) {
-        	keyDoorPairs[keysArray[i]] = doorsArray[i];
+        	keyDoorPairs[keysArray[i]] = doorSetsArray[i];
         }
-        console.log(keyDoorPairs);
 
         game.camera.follow(player);
 
@@ -273,8 +272,8 @@ var mainState = {
         key.kill();
 
         for (var i = 0; i < keyDoorPairs[key].length; i++) {
-            doorPart = keyDoorPairs[key][i];
-            doorPart.kill();
+            door = keyDoorPairs[key][i];
+            door.kill();
         }
     }
 };
