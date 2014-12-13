@@ -41,7 +41,7 @@ var enemyPositions = [
     createPoint(25, 20),
     createPoint(4, 13),
     createPoint(25, 23),
-    createPoint(4, 34 * 34)
+    createPoint(4, 36)
 ];
 var emitterPosition = createPoint(1400, 32);
 var keyPositions = [ 
