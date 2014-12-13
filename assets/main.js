@@ -17,7 +17,7 @@ var up = false;
 var right = false;
 var down = false;
 var left = false;
-var face = NORTH;
+var face = SOUTH;
 
 var keys;
 var doors;
@@ -37,8 +37,8 @@ var enemyPositions =
 var emitterPosition = new Phaser.Point(1400, 32);
 var keyPositions = [ new Phaser.Point(700, 160)];
 var doorPositions = [ 
-                        new Phaser.Point(7 * 32, 18 * 32), 
-                        new Phaser.Point(7 * 32, 19 * 32) 
+                        [new Phaser.Point(7 * 32, 18 * 32), 
+                        new Phaser.Point(7 * 32, 19 * 32)]
                     ];
 
 var mainState = {
@@ -99,22 +99,33 @@ var mainState = {
         enemy.body.velocity.x = 200;
         enemy.body.bounce.set(1);
 
-        keyDoorPairs = {};
         keys = game.add.group();
         keys.enableBody = true;
-        var key = keys.create(keyPositions[0].x, keyPositions[0].y, 'key');
+        keysArray = [];
+        for (var i = 0; i < keyPositions.length; i++) {
+        	var key = keys.create(keyPositions[i].x, keyPositions[i].y, 'key');
+        	keysArray.push(key);
+        }
 
         doors = game.add.group();
         doors.enableBody = true;
-
         doorsArray = [];
         for (var i = 0; i < doorPositions.length; i++) {
-            var door = doors.create(doorPositions[i].x, doorPositions[i].y, 'door');
-            door.body.immovable = true;
-            doorsArray.push(door);
+        	var doorPosition = doorPositions[i];
+        	doorPartsArray = [];
+        	for (var j = 0; j < doorPosition.length; j++) {
+	            var doorPart = doors.create(doorPosition[j].x, doorPosition[j].y, 'door');
+	            doorPart.body.immovable = true;
+	            doorPartsArray.push(doorPart);
+        	}
+	        doorsArray.push(doorPartsArray);
         }
 
-        keyDoorPairs[key] = doorsArray;
+        keyDoorPairs = {};
+        for (var i = 0; i < keysArray.length; i++) {
+        	keyDoorPairs[keysArray[i]] = doorsArray[i];
+        }
+        console.log(keyDoorPairs);
 
         game.camera.follow(player);
 
@@ -260,9 +271,11 @@ var mainState = {
 
     getKey: function(player, key) {
         key.kill();
-        keyDoorPairs[key].forEach(function(door) { 
-            door.kill()
-        });
+
+        for (var i = 0; i < keyDoorPairs[key].length; i++) {
+            doorPart = keyDoorPairs[key][i];
+            doorPart.kill();
+        }
     }
 };
 
