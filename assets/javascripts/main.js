@@ -37,8 +37,8 @@ var heartPositions =  [
     createPoint(3, 36)
 ];
 var enemyPositions = [
-    createPoint(27, 20),
-    createPoint(25, 20),
+    createPoint(27, 19.5),
+    createPoint(25, 19.5),
     createPoint(4, 13),
     createPoint(25, 23),
     createPoint(4, 36)
