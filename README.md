@@ -1,4 +1,4 @@
-#three-hearts#
+#Hearts the game#
 A [Phaser](https://github.com/photonstorm/phaser) 2D game. 
 
 ##How to play##
