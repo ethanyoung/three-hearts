@@ -44,14 +44,14 @@ var enemyPositions = [
     createPoint(4, 36)
 ];
 var emitterPosition = createPoint(1400, 32);
-var keyPositions = [ 
+var keyPositions = [
     createPoint(2, 15),
     createPoint(23, 5),
     createPoint(1, 25.5)
 ];
-var doorPositions = [ 
-    [   
-        createPoint(8, 17), 
+var doorPositions = [
+    [
+        createPoint(8, 17),
         createPoint(9, 17)],
     [
         createPoint(25, 20),
@@ -70,7 +70,7 @@ var mainState = {
         game.load.tilemap('map', 'assets/tilemaps/maps/main.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.image('tiles', 'assets/tilemaps/tiles/tiles.png');
         game.load.image('heart', 'assets/sprites/heart.png');
-        game.load.image('enemy', 'assets/sprites/enemy.png');   
+        game.load.image('enemy', 'assets/sprites/enemy.png');
         game.load.image('flower', 'assets/sprites/flower.png');
         game.load.image('diamond', 'assets/sprites/diamond.png');
         game.load.image('star', 'assets/sprites/star_particle.png');
@@ -86,8 +86,8 @@ var mainState = {
     },
 
     create: function() {
-        if (!game.device.desktop) { 
-            game.input.onDown.add(this.fullScreen, this); 
+        if (!game.device.desktop) {
+            game.input.onDown.add(this.fullScreen, this);
         }
 
         score = 0;
@@ -221,7 +221,7 @@ var mainState = {
         }
 
         else {
-            
+
             player.animations.stop();
             switch(face) {
                 case NORTH:
