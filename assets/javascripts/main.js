@@ -16,6 +16,7 @@ var WEST = 3;
 
 var score;
 var player;
+var princess;
 var cursors;
 var map;
 var hearts;
@@ -65,6 +66,8 @@ var doorPositions = [
         createPoint(40, 16)]
 ];
 
+var princessPosition = createPoint(46, 15);
+
 var mainState = {
     preload: function() {
         game.load.tilemap('map', 'assets/tilemaps/maps/main.json', null, Phaser.Tilemap.TILED_JSON);
@@ -76,6 +79,7 @@ var mainState = {
         game.load.image('star', 'assets/sprites/star_particle.png');
         game.load.image('key', 'assets/sprites/key.png');
         game.load.image('door', 'assets/sprites/door.png');
+        game.load.image('princess', 'assets/sprites/princess.png')
 
         game.load.spritesheet('player', 'assets/sprites/player.png', 28, 32);
         game.load.spritesheet('buttonvertical', 'assets/buttons/button-vertical.png',64,64);
@@ -95,9 +99,7 @@ var mainState = {
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
         map = game.add.tilemap('map');
-
         map.addTilesetImage('tiles');
-
         layer = map.createLayer('Tile Layer 1');
         layer.resizeWorld();
         map.setCollisionBetween(1, 6);
@@ -188,6 +190,7 @@ var mainState = {
         game.physics.arcade.overlap(player, enemies, this.gameOver, null, this);
         game.physics.arcade.collide(player, doors);
         game.physics.arcade.overlap(player, hearts, this.getHeart, null, this);
+        game.physics.arcade.collide(player, princess, this.goodGame, null, this);
 
         for (var i = 0; i < keysArray.length; i++) {
             game.physics.arcade.overlap(player, keysArray[i], this.getKey, null, this);
@@ -239,8 +242,8 @@ var mainState = {
             }
         }
 
-        if (score == 3 && emitter == null) {
-            this.goodGame();
+        if (score == 3) {
+            this.beforeGoodGame();
         }
     },
 
@@ -275,13 +278,24 @@ var mainState = {
         player.reset(respawnPosition.x, respawnPosition.y);
     },
 
+    beforeGoodGame: function() {
+        if (princess == null){
+        	enemies.destroy();
+            princess = game.add.sprite(princessPosition.x, princessPosition.y, 'princess');
+            game.physics.enable(princess);
+        	princess.body.immovable = true;
+       	 	text.text = 'Go to the EAST!';
+        }
+    },
+
     goodGame: function() {
-        enemies.destroy();
-        emitter = game.add.emitter(1400, 100, 200);
-        emitter.makeParticles(['star', 'diamond', 'flower']);
-        emitter.gravity = 200;
-        emitter.start(false, 5000, 20);
-        text.text = 'Go to the EAST!';
+        text.text = 'Congradulations!';
+		if (emitter == null){
+			emitter = game.add.emitter(1400, 100, 200);
+			emitter.makeParticles(['star', 'diamond', 'flower']);
+			emitter.gravity = 200;
+			emitter.start(false, 5000, 20);
+		}
     },
 
     fullScreen: function() {
