@@ -290,7 +290,7 @@ var mainState = {
     goodGame: function() {
         text.text = 'Congradulations!';
 		if (emitter == null){
-			emitter = game.add.emitter(1400, 100, 200);
+			emitter = game.add.emitter(princess.position.x, 100, 200);
 			emitter.makeParticles(['star', 'diamond', 'flower']);
 			emitter.gravity = 200;
 			emitter.start(false, 5000, 20);
