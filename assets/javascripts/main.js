@@ -16,6 +16,7 @@ var WEST = 3;
 
 var score;
 var player;
+var princess;
 var cursors;
 var map;
 var hearts;
@@ -65,6 +66,8 @@ var doorPositions = [
         createPoint(40, 16)]
 ];
 
+var princessPosition = createPoint(46, 15);
+
 var mainState = {
     preload: function() {
         game.load.tilemap('map', 'assets/tilemaps/maps/main.json', null, Phaser.Tilemap.TILED_JSON);
@@ -76,6 +79,7 @@ var mainState = {
         game.load.image('star', 'assets/sprites/star_particle.png');
         game.load.image('key', 'assets/sprites/key.png');
         game.load.image('door', 'assets/sprites/door.png');
+        game.load.image('princess', 'assets/sprites/princess.png')
 
         game.load.spritesheet('player', 'assets/sprites/player.png', 28, 32);
         game.load.spritesheet('buttonvertical', 'assets/buttons/button-vertical.png',64,64);
@@ -95,9 +99,7 @@ var mainState = {
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
         map = game.add.tilemap('map');
-
         map.addTilesetImage('tiles');
-
         layer = map.createLayer('Tile Layer 1');
         layer.resizeWorld();
         map.setCollisionBetween(1, 6);
@@ -152,33 +154,33 @@ var mainState = {
         text = game.add.text(16, 16, 'Get the three hearts!', style);
         text.fixedToCamera = true;
 
-        buttonup = game.add.button(128, 288, 'buttonvertical', null, this, 0, 1, 0, 1);
-        buttonup.fixedToCamera = true;
-        buttonup.events.onInputOver.add(function() { up=true; });
-        buttonup.events.onInputOut.add(function() { up=false; });
-        buttonup.events.onInputDown.add(function() { up=true; });
-        buttonup.events.onInputUp.add(function() { up=false; });
+        btnUp = game.add.button(128, 288, 'buttonvertical', null, this, 0, 1, 0, 1);
+        btnUp.fixedToCamera = true;
+        btnUp.events.onInputOver.add(function() { up=true; });
+        btnUp.events.onInputOut.add(function() { up=false; });
+        btnUp.events.onInputDown.add(function() { up=true; });
+        btnUp.events.onInputUp.add(function() { up=false; });
 
-        buttonleft = game.add.button(32, 352, 'buttonhorizontal', null, this, 0, 1, 0, 1);
-        buttonleft.fixedToCamera = true;
-        buttonleft.events.onInputOver.add(function() { left=true; });
-        buttonleft.events.onInputOut.add(function() { left=false; });
-        buttonleft.events.onInputDown.add(function() { left=true; });
-        buttonleft.events.onInputUp.add(function() { left=false; });
+        btnLeft = game.add.button(32, 352, 'buttonhorizontal', null, this, 0, 1, 0, 1);
+        btnLeft.fixedToCamera = true;
+        btnLeft.events.onInputOver.add(function() { left=true; });
+        btnLeft.events.onInputOut.add(function() { left=false; });
+        btnLeft.events.onInputDown.add(function() { left=true; });
+        btnLeft.events.onInputUp.add(function() { left=false; });
 
-        buttondown = game.add.button(128, 416, 'buttonvertical', null, this, 0, 1, 0, 1);
-        buttondown.fixedToCamera = true;
-        buttondown.events.onInputOver.add(function() { down=true; });
-        buttondown.events.onInputOut.add(function() { down=false; });
-        buttondown.events.onInputDown.add(function() { down=true; });
-        buttondown.events.onInputUp.add(function() { down=false; });
+        btnDown = game.add.button(128, 416, 'buttonvertical', null, this, 0, 1, 0, 1);
+        btnDown.fixedToCamera = true;
+        btnDown.events.onInputOver.add(function() { down=true; });
+        btnDown.events.onInputOut.add(function() { down=false; });
+        btnDown.events.onInputDown.add(function() { down=true; });
+        btnDown.events.onInputUp.add(function() { down=false; });
 
-        buttonright = game.add.button(192, 352, 'buttonhorizontal', null, this, 0, 1, 0, 1);
-        buttonright.fixedToCamera = true;
-        buttonright.events.onInputOver.add(function() { right=true ;});
-        buttonright.events.onInputOut.add(function() { right=false ;});
-        buttonright.events.onInputDown.add(function() { right=true ;});
-        buttonright.events.onInputUp.add(function() { right=false ;});
+        btnRight = game.add.button(192, 352, 'buttonhorizontal', null, this, 0, 1, 0, 1);
+        btnRight.fixedToCamera = true;
+        btnRight.events.onInputOver.add(function() { right=true ;});
+        btnRight.events.onInputOut.add(function() { right=false ;});
+        btnRight.events.onInputDown.add(function() { right=true ;});
+        btnRight.events.onInputUp.add(function() { right=false ;});
     },
 
     update: function() {
@@ -188,6 +190,7 @@ var mainState = {
         game.physics.arcade.overlap(player, enemies, this.gameOver, null, this);
         game.physics.arcade.collide(player, doors);
         game.physics.arcade.overlap(player, hearts, this.getHeart, null, this);
+        game.physics.arcade.collide(player, princess, this.goodGame, null, this);
 
         for (var i = 0; i < keysArray.length; i++) {
             game.physics.arcade.overlap(player, keysArray[i], this.getKey, null, this);
@@ -221,7 +224,6 @@ var mainState = {
         }
 
         else {
-
             player.animations.stop();
             switch(face) {
                 case NORTH:
@@ -239,8 +241,8 @@ var mainState = {
             }
         }
 
-        if (score == 3 && emitter == null) {
-            this.goodGame();
+        if (score == 3) {
+            this.beforeGoodGame();
         }
     },
 
@@ -275,13 +277,36 @@ var mainState = {
         player.reset(respawnPosition.x, respawnPosition.y);
     },
 
+    beforeGoodGame: function() {
+        if (princess == null){
+        	enemies.destroy();
+            princess = game.add.sprite(princessPosition.x, princessPosition.y, 'princess');
+            game.physics.enable(princess);
+        	princess.body.immovable = true;
+       	 	text.text = 'Go to the EAST!';
+        }
+    },
+
     goodGame: function() {
-        enemies.destroy();
-        emitter = game.add.emitter(1400, 100, 200);
-        emitter.makeParticles(['star', 'diamond', 'flower']);
-        emitter.gravity = 200;
-        emitter.start(false, 5000, 20);
-        text.text = 'Go to the EAST!';
+        text.text = 'Congradulations!';
+		if (emitter == null){
+			emitter = game.add.emitter(princess.position.x, 100, 200);
+			emitter.makeParticles(['star', 'diamond', 'flower']);
+			emitter.gravity = 200;
+			emitter.start(false, 5000, 20);
+		}
+
+        player.frame = 0;
+
+        cursors.up.enabled = false;
+        cursors.right.enabled = false;
+        cursors.down.enabled = false;
+        cursors.left.enabled = false;
+
+        btnUp.destroy();
+        btnRight.destroy();
+        btnDown.destroy();
+        btnLeft.destroy();
     },
 
     fullScreen: function() {
