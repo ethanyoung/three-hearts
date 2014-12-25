@@ -30,6 +30,7 @@ var left = false;
 var face = SOUTH;
 var doors;
 var keysArray = [];
+var chest;
 
 var respawnPosition = createPoint(5, 2);
 var heartPositions =  [
@@ -68,6 +69,8 @@ var doorPositions = [
 
 var princessPosition = createPoint(46, 15);
 
+var chestPosition = createPoint(16, 2);
+
 var mainState = {
     preload: function() {
         game.load.tilemap('map', 'assets/tilemaps/maps/main.json', null, Phaser.Tilemap.TILED_JSON);
@@ -79,7 +82,8 @@ var mainState = {
         game.load.image('star', 'assets/sprites/star_particle.png');
         game.load.image('key', 'assets/sprites/key.png');
         game.load.image('door', 'assets/sprites/door.png');
-        game.load.image('princess', 'assets/sprites/princess.png')
+        game.load.image('princess', 'assets/sprites/princess.png');
+        game.load.image('chest', 'assets/sprites/chest.png');
 
         game.load.spritesheet('player', 'assets/sprites/player.png', 28, 32);
         game.load.spritesheet('buttonvertical', 'assets/buttons/button-vertical.png',64,64);
@@ -146,6 +150,10 @@ var mainState = {
             keysArray.push(key);
         }
 
+        chest = game.add.sprite(chestPosition.x, chestPosition.y, 'chest');
+        game.physics.enable(chest);
+        chest.body.immovable = true;
+
         game.camera.follow(player);
 
         cursors = game.input.keyboard.createCursorKeys();
@@ -191,6 +199,7 @@ var mainState = {
         game.physics.arcade.collide(player, doors);
         game.physics.arcade.overlap(player, hearts, this.getHeart, null, this);
         game.physics.arcade.collide(player, princess, this.goodGame, null, this);
+        game.physics.arcade.collide(player, chest);
 
         for (var i = 0; i < keysArray.length; i++) {
             game.physics.arcade.overlap(player, keysArray[i], this.getKey, null, this);
