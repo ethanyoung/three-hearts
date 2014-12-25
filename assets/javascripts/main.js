@@ -31,6 +31,7 @@ var face = SOUTH;
 var doors;
 var keysArray = [];
 var chest;
+var endingText;
 
 var respawnPosition = createPoint(5, 2);
 var heartPositions =  [
@@ -199,7 +200,7 @@ var mainState = {
         game.physics.arcade.collide(player, doors);
         game.physics.arcade.overlap(player, hearts, this.getHeart, null, this);
         game.physics.arcade.collide(player, princess, this.goodGame, null, this);
-        game.physics.arcade.collide(player, chest);
+        game.physics.arcade.collide(player, chest, this.openChest, null, this);
 
         for (var i = 0; i < keysArray.length; i++) {
             game.physics.arcade.overlap(player, keysArray[i], this.getKey, null, this);
@@ -338,6 +339,14 @@ var mainState = {
             });
         }, this);
     },
+
+    openChest: function(player, chest) {
+        text.text = '';
+        var style = { font: "22px Sans-serif", fill: "#ffffff" };
+        endintText = game.add.text(64, 32, "你获得了\n一份特别邀请!", style);
+        endintText.align = 'center';
+        endintText.fixedToCamera = true;
+    }
 };
 
 game.state.add('main', mainState);
