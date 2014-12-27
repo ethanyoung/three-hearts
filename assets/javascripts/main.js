@@ -68,7 +68,7 @@ var doorPositions = [
         createPoint(28, 19)]
 ];
 
-var princessPosition = createPoint(42.5, 10);
+var princessPosition = createPoint(42.5, 12);
 
 var chestPosition = createPoint(40, 10);
 
