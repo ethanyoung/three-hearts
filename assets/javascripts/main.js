@@ -70,7 +70,7 @@ var doorPositions = [
 
 var princessPosition = createPoint(42.5, 12);
 
-var chestPosition = createPoint(40, 10);
+var chestPosition = createPoint(40, 12);
 
 var mainState = {
     preload: function() {
