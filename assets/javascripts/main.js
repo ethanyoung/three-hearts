@@ -35,42 +35,42 @@ var endingText;
 
 var respawnPosition = createPoint(5, 2);
 var heartPositions =  [
-    createPoint(1, 18.5),
-    createPoint(8.5, 18.5),
-    createPoint(3, 36)
+    createPoint(1.5, 19.5),
+    createPoint(7.5, 19.5),
+    createPoint(2, 36)
 ];
 var enemyPositions = [
-    createPoint(27, 20),
-    createPoint(25, 20),
+    createPoint(15, 20),
+    createPoint(17, 20),
     createPoint(4, 13),
-    createPoint(25, 23),
+    createPoint(15, 23),
     createPoint(4, 36)
 ];
-var emitterPosition = createPoint(1400, 32);
+var emitterPosition = createPoint(42.5, 0);
 var keyPositions = [
     createPoint(2, 15),
-    createPoint(23, 5),
-    createPoint(1, 25.5)
+    createPoint(23, 2),
+    createPoint(1.5, 29)
 ];
 var doorPositions = [
     [
-        createPoint(8, 17),
-        createPoint(9, 17)],
+        createPoint(7, 17),
+        createPoint(8, 17)],
     [
-        createPoint(25, 20),
-        createPoint(26, 20),
-        createPoint(27, 20),
-        createPoint(3, 18),
-        createPoint(3, 19)],
+        createPoint(15, 20),
+        createPoint(16, 20),
+        createPoint(17, 20),
+        createPoint(3, 19),
+        createPoint(3, 20)],
     [
-        createPoint(40, 14),
-        createPoint(40, 15),
-        createPoint(40, 16)]
+        createPoint(26, 19),
+        createPoint(27, 19),
+        createPoint(28, 19)]
 ];
 
-var princessPosition = createPoint(46, 15);
+var princessPosition = createPoint(42.5, 10);
 
-var chestPosition = createPoint(16, 2);
+var chestPosition = createPoint(40, 10);
 
 var mainState = {
     preload: function() {
