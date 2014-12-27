@@ -107,7 +107,7 @@ var mainState = {
         map.addTilesetImage('tiles');
         layer = map.createLayer('Tile Layer 1');
         layer.resizeWorld();
-        map.setCollisionBetween(1, 6);
+        map.setCollisionBetween(1, 8);
 
         player = game.add.sprite(respawnPosition.x, respawnPosition.y, 'player');
         game.physics.enable(player);
