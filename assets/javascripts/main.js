@@ -172,6 +172,9 @@ var mainState = {
         timer = game.time.create(false);
         timer.start();
 
+        // TODO: anchor of timeText.
+        // TODO: add '0' to minutes < 0.
+
         btnUp = game.add.button(128, 288, 'buttonvertical', null, this, 0, 1, 0, 1);
         btnUp.fixedToCamera = true;
         btnUp.events.onInputOver.add(function() { up=true; });
