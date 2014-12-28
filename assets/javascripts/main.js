@@ -32,6 +32,8 @@ var doors;
 var keysArray = [];
 var chest;
 var endingText;
+var timer;
+var timerText;
 
 var respawnPosition = createPoint(5, 2);
 var heartPositions =  [
@@ -155,6 +157,7 @@ var mainState = {
         game.physics.enable(chest);
         chest.body.immovable = true;
 
+
         game.camera.follow(player);
 
         cursors = game.input.keyboard.createCursorKeys();
@@ -162,6 +165,12 @@ var mainState = {
         var style = { font: "30px Arial", fill: "#000000" };
         text = game.add.text(16, 16, 'Get the three hearts!', style);
         text.fixedToCamera = true;
+
+        timerText = game.add.text(220, 450, '', style);
+        timerText.fixedToCamera = true;
+
+        timer = game.time.create(false);
+        timer.start();
 
         btnUp = game.add.button(128, 288, 'buttonvertical', null, this, 0, 1, 0, 1);
         btnUp.fixedToCamera = true;
@@ -254,6 +263,8 @@ var mainState = {
         if (score == 3) {
             this.beforeGoodGame();
         }
+
+        this.updateTimer();
     },
 
     getHeart: function(player, heart) {
@@ -346,6 +357,15 @@ var mainState = {
         endintText = game.add.text(64, 32, "你获得了\n一份特别邀请!", style);
         endintText.align = 'center';
         endintText.fixedToCamera = true;
+    },
+
+    updateTimer: function() {
+
+        milliseconds = Math.floor(timer.seconds * 10 % 10);
+        seconds = Math.floor(timer.seconds % 60);
+        minutes = Math.floor(timer.ms / Phaser.Timer.MINUTE);
+
+        timerText.text = minutes + ':' + seconds + '.' + milliseconds;
     }
 };
 
