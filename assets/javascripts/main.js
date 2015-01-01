@@ -307,15 +307,6 @@ var mainState = {
     },
 
     goodGame: function() {
-		if (emitter == null){
-			emitter = game.add.emitter(princess.position.x, 100, 200);
-			emitter.makeParticles(['star', 'diamond', 'flower']);
-			emitter.gravity = 200;
-			emitter.start(false, 5000, 20);
-		}
-
-        player.frame = 0;
-
         cursors.up.enabled = false;
         cursors.right.enabled = false;
         cursors.down.enabled = false;
@@ -325,6 +316,18 @@ var mainState = {
         btnRight.destroy();
         btnDown.destroy();
         btnLeft.destroy();
+
+        if (emitter == null){
+            emitter = game.add.emitter(princess.position.x, 100, 200);
+            emitter.makeParticles(['star', 'diamond', 'flower']);
+            emitter.gravity = 200;
+            emitter.start(false, 5000, 20);
+        }
+
+        player.frame = 0;
+
+        timer.pause();
+        timerText.cameraOffset = new Phaser.Point(64, 128);
     },
 
     fullScreen: function() {
