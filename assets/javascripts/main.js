@@ -30,9 +30,11 @@ var face = SOUTH;
 var doors;
 var keysArray = [];
 var chest;
-var endingText;
+var invitText;
+var resultText;
 var timer;
 var timerText;
+var mainStyle;
 
 var respawnPosition = createPoint(5, 2);
 var heartPositions =  [
@@ -161,9 +163,9 @@ var mainState = {
 
         cursors = game.input.keyboard.createCursorKeys();
 
-        var style = { font: "30px Arial", fill: "#000000" };
+        mainStyle = { font: "30px Sans-serif", fill: "#000000" };
 
-        timerText = game.add.text(220, 16, '', style);
+        timerText = game.add.text(220, 16, '', mainStyle);
         timerText.fixedToCamera = true;
 
         timer = game.time.create(false);
@@ -329,6 +331,12 @@ var mainState = {
         timer.pause();
         timerText.anchor.set(0.5);
         timerText.cameraOffset = new Phaser.Point(game.width / 2, game.height / 2);
+
+        var percent = 0;
+        resultText = game.add.text(game.width / 2, game.height / 2 + 36, '你超过了' + percent + '%的玩家', mainStyle);
+        resultText.anchor.set(0.5);
+        resultText.align = 'center';
+        resultText.fixedToCamera = true;
     },
 
     fullScreen: function() {
@@ -353,10 +361,10 @@ var mainState = {
     },
 
     openChest: function(player, chest) {
-        var style = { font: "22px Sans-serif", fill: "#ffffff" };
-        endintText = game.add.text(64, 32, "你获得了\n一份特别邀请!", style);
-        endintText.align = 'center';
-        endintText.fixedToCamera = true;
+        var whiteStyle = { font: "30px Sans-serif", fill: "#ffffff" };
+        invitText = game.add.text(64, 32, "你获得了\n一份特别邀请!", whiteStyle);
+        invitText.align = 'center';
+        invitText.fixedToCamera = true;
     },
 
     updateTimer: function() {
