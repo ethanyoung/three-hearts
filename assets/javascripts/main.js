@@ -327,7 +327,8 @@ var mainState = {
         player.frame = 0;
 
         timer.pause();
-        timerText.cameraOffset = new Phaser.Point(64, 128);
+        timerText.anchor.set(0.5);
+        timerText.cameraOffset = new Phaser.Point(game.width / 2, game.height / 2);
     },
 
     fullScreen: function() {
