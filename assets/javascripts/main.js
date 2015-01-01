@@ -356,12 +356,18 @@ var mainState = {
     },
 
     updateTimer: function() {
-
-        milliseconds = Math.floor(timer.seconds * 10 % 10);
         seconds = Math.floor(timer.seconds % 60);
         minutes = Math.floor(timer.ms / Phaser.Timer.MINUTE);
 
-        timerText.text = minutes + ':' + seconds + '.' + milliseconds;
+        if(seconds < 10) {
+            seconds = '0' + seconds;
+        }
+
+        if(minutes < 10) {
+            minutes = '0' + minutes;
+        }
+
+        timerText.text = minutes + ':' + seconds;
     }
 };
 
