@@ -20,7 +20,6 @@ var princess;
 var cursors;
 var map;
 var hearts;
-var text;
 var enemies;
 var emitter;
 var up = false;
@@ -163,10 +162,8 @@ var mainState = {
         cursors = game.input.keyboard.createCursorKeys();
 
         var style = { font: "30px Arial", fill: "#000000" };
-        text = game.add.text(16, 16, 'Get the three hearts!', style);
-        text.fixedToCamera = true;
 
-        timerText = game.add.text(220, 450, '', style);
+        timerText = game.add.text(220, 16, '', style);
         timerText.fixedToCamera = true;
 
         timer = game.time.create(false);
@@ -272,7 +269,6 @@ var mainState = {
 
     getHeart: function(player, heart) {
         score += 1;
-        text.text = 'You\'ve got ' + score + ' hearts.';
         heart.body.enable = false;
         var tweenTime = Phaser.Timer.SECOND * 0.5;
         game.add.tween(heart.scale).to( { x: 2, y: 2 }, tweenTime, Phaser.Easing.Linear.None, true, 0, 1000, true);
@@ -307,12 +303,10 @@ var mainState = {
             princess = game.add.sprite(princessPosition.x, princessPosition.y, 'princess');
             game.physics.enable(princess);
         	princess.body.immovable = true;
-       	 	text.text = 'Go to the EAST!';
         }
     },
 
     goodGame: function() {
-        text.text = 'Congradulations!';
 		if (emitter == null){
 			emitter = game.add.emitter(princess.position.x, 100, 200);
 			emitter.makeParticles(['star', 'diamond', 'flower']);
@@ -355,7 +349,6 @@ var mainState = {
     },
 
     openChest: function(player, chest) {
-        text.text = '';
         var style = { font: "22px Sans-serif", fill: "#ffffff" };
         endintText = game.add.text(64, 32, "你获得了\n一份特别邀请!", style);
         endintText.align = 'center';
