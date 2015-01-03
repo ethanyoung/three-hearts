@@ -343,7 +343,7 @@ var mainState = {
             var tweenTime = Phaser.Timer.SECOND / 2;
             game.add.tween(timerText.scale).to( { x: 1.5, y: 1.5 }, tweenTime, Phaser.Easing.Linear.None, true, 0, 1000, true);
 
-            var percent = 83%;
+            var percent = 83;
             resultText = game.add.text(game.width / 2, game.height / 2 + 32, '你超过了' + percent + '%的玩家', mainStyle);
             resultText.anchor.set(0.5);
             resultText.align = 'center';
