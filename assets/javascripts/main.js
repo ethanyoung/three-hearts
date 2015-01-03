@@ -306,49 +306,49 @@ var mainState = {
     },
 
     goodGame: function() {
-        princess.body.enable = false;
+        if (timerText == null) {
+            cursors.up.enabled = false;
+            cursors.right.enabled = false;
+            cursors.down.enabled = false;
+            cursors.left.enabled = false;
 
-        cursors.up.enabled = false;
-        cursors.right.enabled = false;
-        cursors.down.enabled = false;
-        cursors.left.enabled = false;
+            btnUp.destroy();
+            btnRight.destroy();
+            btnDown.destroy();
+            btnLeft.destroy();
 
-        btnUp.destroy();
-        btnRight.destroy();
-        btnDown.destroy();
-        btnLeft.destroy();
+            if (emitter == null){
+                emitter = game.add.emitter(princess.position.x, 100, 200);
+                emitter.makeParticles(['star', 'diamond', 'flower']);
+                emitter.gravity = 200;
+                emitter.start(false, 5000, 20);
+            }
 
-        if (emitter == null){
-            emitter = game.add.emitter(princess.position.x, 100, 200);
-            emitter.makeParticles(['star', 'diamond', 'flower']);
-            emitter.gravity = 200;
-            emitter.start(false, 5000, 20);
+            player.frame = 0;
+
+            timer.pause();
+            seconds = Math.floor(timer.seconds % 60);
+            minutes = Math.floor(timer.ms / Phaser.Timer.MINUTE);
+            if(seconds < 10) {
+                seconds = '0' + seconds;
+            }
+            if(minutes < 10) {
+                minutes = '0' + minutes;
+            }
+
+            timerText = game.add.text(game.width / 2, game.height / 2 - 32, '', mainStyle);
+            timerText.text = minutes + ':' + seconds;
+            timerText.fixedToCamera = true;
+            timerText.anchor.set(0.5);
+            var tweenTime = Phaser.Timer.SECOND / 2;
+            game.add.tween(timerText.scale).to( { x: 1.5, y: 1.5 }, tweenTime, Phaser.Easing.Linear.None, true, 0, 1000, true);
+
+            var percent = 0;
+            resultText = game.add.text(game.width / 2, game.height / 2 + 32, '你超过了' + percent + '%的玩家', mainStyle);
+            resultText.anchor.set(0.5);
+            resultText.align = 'center';
+            resultText.fixedToCamera = true;
         }
-
-        player.frame = 0;
-
-        timer.pause();
-        seconds = Math.floor(timer.seconds % 60);
-        minutes = Math.floor(timer.ms / Phaser.Timer.MINUTE);
-        if(seconds < 10) {
-            seconds = '0' + seconds;
-        }
-        if(minutes < 10) {
-            minutes = '0' + minutes;
-        }
-
-        timerText = game.add.text(game.width / 2, game.height / 2 - 32, '', mainStyle);
-        timerText.text = minutes + ':' + seconds;
-        timerText.fixedToCamera = true;
-        timerText.anchor.set(0.5);
-        var tweenTime = Phaser.Timer.SECOND / 2;
-        game.add.tween(timerText.scale).to( { x: 1.5, y: 1.5 }, tweenTime, Phaser.Easing.Linear.None, true, 0, 1000, true);
-
-        var percent = 0;
-        resultText = game.add.text(game.width / 2, game.height / 2 + 32, '你超过了' + percent + '%的玩家', mainStyle);
-        resultText.anchor.set(0.5);
-        resultText.align = 'center';
-        resultText.fixedToCamera = true;
     },
 
     fullScreen: function() {
@@ -373,11 +373,12 @@ var mainState = {
     },
 
     openChest: function(player, chest) {
-        chest.body.enable = false;
-        var whiteStyle = { font: "30px Sans-serif", fill: "#ffffff" };
-        invitText = game.add.text(64, 32, "你获得了\n一份特别邀请!", whiteStyle);
-        invitText.align = 'center';
-        invitText.fixedToCamera = true;
+        if (invitText == null){
+            var whiteStyle = { font: "30px Sans-serif", fill: "#ffffff" };
+            invitText = game.add.text(64, 32, "你获得了\n一份特别邀请!", whiteStyle);
+            invitText.align = 'center';
+            invitText.fixedToCamera = true;
+        }
     },
 
     updateTimer: function() {
