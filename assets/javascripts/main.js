@@ -165,9 +165,6 @@ var mainState = {
 
         mainStyle = { font: "30px Sans-serif", fill: "#000000" };
 
-        timerText = game.add.text(220, 16, '', mainStyle);
-        timerText.fixedToCamera = true;
-
         timer = game.time.create(false);
         timer.start();
 
@@ -266,7 +263,7 @@ var mainState = {
             this.beforeGoodGame();
         }
 
-        this.updateTimer();
+        // this.updateTimer();
     },
 
     getHeart: function(player, heart) {
@@ -309,6 +306,8 @@ var mainState = {
     },
 
     goodGame: function() {
+        princess.body.enable = false;
+
         cursors.up.enabled = false;
         cursors.right.enabled = false;
         cursors.down.enabled = false;
@@ -329,13 +328,24 @@ var mainState = {
         player.frame = 0;
 
         timer.pause();
+        seconds = Math.floor(timer.seconds % 60);
+        minutes = Math.floor(timer.ms / Phaser.Timer.MINUTE);
+        if(seconds < 10) {
+            seconds = '0' + seconds;
+        }
+        if(minutes < 10) {
+            minutes = '0' + minutes;
+        }
+
+        timerText = game.add.text(game.width / 2, game.height / 2 - 32, '', mainStyle);
+        timerText.text = minutes + ':' + seconds;
+        timerText.fixedToCamera = true;
         timerText.anchor.set(0.5);
-        timerText.cameraOffset = new Phaser.Point(game.width / 2, game.height / 2 - 64);
         var tweenTime = Phaser.Timer.SECOND / 2;
-        game.add.tween(timerText.scale).to( { x: 2, y: 2 }, tweenTime, Phaser.Easing.Linear.None, true, 0, 1000, true);
+        game.add.tween(timerText.scale).to( { x: 1.5, y: 1.5 }, tweenTime, Phaser.Easing.Linear.None, true, 0, 1000, true);
 
         var percent = 0;
-        resultText = game.add.text(game.width / 2, game.height / 2 + 36, '你超过了' + percent + '%的玩家', mainStyle);
+        resultText = game.add.text(game.width / 2, game.height / 2 + 32, '你超过了' + percent + '%的玩家', mainStyle);
         resultText.anchor.set(0.5);
         resultText.align = 'center';
         resultText.fixedToCamera = true;
@@ -363,6 +373,7 @@ var mainState = {
     },
 
     openChest: function(player, chest) {
+        chest.body.enable = false;
         var whiteStyle = { font: "30px Sans-serif", fill: "#ffffff" };
         invitText = game.add.text(64, 32, "你获得了\n一份特别邀请!", whiteStyle);
         invitText.align = 'center';
@@ -370,18 +381,7 @@ var mainState = {
     },
 
     updateTimer: function() {
-        seconds = Math.floor(timer.seconds % 60);
-        minutes = Math.floor(timer.ms / Phaser.Timer.MINUTE);
 
-        if(seconds < 10) {
-            seconds = '0' + seconds;
-        }
-
-        if(minutes < 10) {
-            minutes = '0' + minutes;
-        }
-
-        timerText.text = minutes + ':' + seconds;
     }
 };
 
