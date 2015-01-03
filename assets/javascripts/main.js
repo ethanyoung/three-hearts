@@ -330,7 +330,9 @@ var mainState = {
 
         timer.pause();
         timerText.anchor.set(0.5);
-        timerText.cameraOffset = new Phaser.Point(game.width / 2, game.height / 2);
+        timerText.cameraOffset = new Phaser.Point(game.width / 2, game.height / 2 - 64);
+        var tweenTime = Phaser.Timer.SECOND / 2;
+        game.add.tween(timerText.scale).to( { x: 2, y: 2 }, tweenTime, Phaser.Easing.Linear.None, true, 0, 1000, true);
 
         var percent = 0;
         resultText = game.add.text(game.width / 2, game.height / 2 + 36, '你超过了' + percent + '%的玩家', mainStyle);
