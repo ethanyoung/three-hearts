@@ -375,7 +375,7 @@ var mainState = {
     openChest: function(player, chest) {
         if (invitText == null){
             var whiteStyle = { font: "30px Sans-serif", fill: "#ffffff" };
-            invitText = game.add.text(64, 32, "你获得了\n一份特别邀请!", whiteStyle);
+            invitText = game.add.text(64, 32, "获得宝物!", whiteStyle);
             invitText.align = 'center';
             invitText.fixedToCamera = true;
         }
