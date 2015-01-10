@@ -330,7 +330,8 @@ var mainState = {
     openChest: function(player, chest) {
         if (invitText == null){
             var whiteStyle = { font: "30px Sans-serif", fill: "#ffffff" };
-            invitText = game.add.text(64, 32, "获得宝物!", whiteStyle);
+            invitText = game.add.text(game.width / 2, 32, "获得宝物!", whiteStyle);
+            invitText.anchor.set(0.5);
             invitText.align = 'center';
             invitText.fixedToCamera = true;
         }
