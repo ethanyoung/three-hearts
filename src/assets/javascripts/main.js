@@ -35,6 +35,7 @@ var resultText;
 var timer;
 var timerText;
 var mainStyle;
+var promtText;
 
 var respawnPosition = createPoint(5, 2);
 var heartPositions =  [
@@ -204,7 +205,7 @@ var mainState = {
         game.physics.arcade.overlap(player, enemies, this.gameOver, null, this);
         game.physics.arcade.collide(player, doors);
         game.physics.arcade.overlap(player, hearts, this.getHeart, null, this);
-        game.physics.arcade.collide(player, princess, this.goodGame, null, this);
+        game.physics.arcade.collide(player, princess, this.promtChest, null, this);
         game.physics.arcade.collide(player, chest, this.openChest, null, this);
 
         for (var i = 0; i < keysArray.length; i++) {
@@ -329,6 +330,11 @@ var mainState = {
 
     openChest: function(player, chest) {
         if (invitText == null){
+
+            if (promtText != null) {
+                promtText.destroy();
+            }
+
             var whiteStyle = { font: "30px Sans-serif", fill: "#ffffff" };
             invitText = game.add.text(game.width / 2, 32, "获得宝物!", whiteStyle);
             invitText.anchor.set(0.5);
@@ -385,6 +391,15 @@ var mainState = {
                     break;
             }
         }
+    },
+
+    promtChest: function() {
+    if (promtText == null) {
+        var whiteStyle = { font: "30px Sans-serif", fill: "#ffffff" };
+        promtText = game.add.text(game.width / 2, 32, "去东边的房间看看！", whiteStyle);
+        promtText.anchor.set(0.5);
+        promtText.align = 'center';
+        promtText.fixedToCamera = true;}
     }
 };
 
