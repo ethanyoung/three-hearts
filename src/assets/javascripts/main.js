@@ -71,9 +71,9 @@ var doorPositions = [
         createPoint(28, 19)]
 ];
 
-var princessPosition = createPoint(42.5, 12);
+var princessPosition = createPoint(40.5, 8);
 
-var chestPosition = createPoint(40, 12);
+var chestPosition = createPoint(55, 25);
 
 var mainState = {
     preload: function() {
@@ -272,7 +272,7 @@ var mainState = {
             btnLeft.destroy();
 
             if (emitter == null){
-                emitter = game.add.emitter(princess.position.x, 100, 200);
+                emitter = game.add.emitter(chest.position.x, 0, 200);
                 emitter.makeParticles(['star', 'diamond', 'flower']);
                 emitter.gravity = 200;
                 emitter.start(false, 5000, 20);
@@ -334,6 +334,8 @@ var mainState = {
             invitText.anchor.set(0.5);
             invitText.align = 'center';
             invitText.fixedToCamera = true;
+
+            this.goodGame();
         }
     },
 
