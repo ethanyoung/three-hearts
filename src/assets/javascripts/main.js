@@ -155,11 +155,6 @@ var mainState = {
             keysArray.push(key);
         }
 
-        chest = game.add.sprite(chestPosition.x, chestPosition.y, 'chest');
-        game.physics.enable(chest);
-        chest.body.immovable = true;
-
-
         game.camera.follow(player);
 
         cursors = game.input.keyboard.createCursorKeys();
@@ -262,6 +257,12 @@ var mainState = {
             princess = game.add.sprite(princessPosition.x, princessPosition.y, 'princess');
             game.physics.enable(princess);
         	princess.body.immovable = true;
+        }
+
+        if (chest == null) {
+            chest = game.add.sprite(chestPosition.x, chestPosition.y, 'chest');
+            game.physics.enable(chest);
+            chest.body.immovable = true;
         }
     },
 
