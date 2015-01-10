@@ -36,6 +36,7 @@ var timer;
 var timerText;
 var mainStyle;
 var promtText;
+var trees;
 
 var respawnPosition = createPoint(5, 2);
 var heartPositions =  [
@@ -76,6 +77,8 @@ var princessPosition = createPoint(40.5, 8);
 
 var chestPosition = createPoint(55, 25);
 
+var treePositions = [createPoint(26, 22), createPoint(26, 23)];
+
 var mainState = {
     preload: function() {
         game.load.tilemap('map', 'assets/tilemaps/maps/main.json', null, Phaser.Tilemap.TILED_JSON);
@@ -93,6 +96,7 @@ var mainState = {
         game.load.spritesheet('player', 'assets/sprites/player.png', 28, 32);
         game.load.spritesheet('buttonvertical', 'assets/buttons/button-vertical.png',64,64);
         game.load.spritesheet('buttonhorizontal', 'assets/buttons/button-horizontal.png',96,64);
+        game.load.spritesheet('tree', 'assets/tilemaps/tiles/tiles.png', 32, 32, 1);
 
         game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
@@ -155,6 +159,13 @@ var mainState = {
             keysArray.push(key);
         }
 
+        trees = game.add.group();
+        for (var i = 0; i < treePositions.length; i++) {
+            var tree = trees.create(treePositions[i].x, treePositions[i].y, 'tree');
+            game.physics.enable(tree);
+            tree.body.immovable = true;
+        }
+
         game.camera.follow(player);
 
         cursors = game.input.keyboard.createCursorKeys();
@@ -202,6 +213,7 @@ var mainState = {
         game.physics.arcade.overlap(player, hearts, this.getHeart, null, this);
         game.physics.arcade.collide(player, princess, this.promtChest, null, this);
         game.physics.arcade.collide(player, chest, this.openChest, null, this);
+        game.physics.arcade.collide(player, trees);
 
         for (var i = 0; i < keysArray.length; i++) {
             game.physics.arcade.overlap(player, keysArray[i], this.getKey, null, this);
@@ -264,6 +276,8 @@ var mainState = {
             game.physics.enable(chest);
             chest.body.immovable = true;
         }
+
+        trees.destroy();
     },
 
     goodGame: function() {
@@ -324,7 +338,7 @@ var mainState = {
 
         game.time.events.add(tweenTime, function() {
             key.doorSet.forEach(function(door) {
-            door.kill();
+                door.kill();
             });
         }, this);
     },
