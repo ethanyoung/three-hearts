@@ -49,7 +49,7 @@ var enemyPositions = [
     createPoint(15, 23),
     createPoint(4, 36)
 ];
-var emitterPosition = createPoint(42.5, 0);
+
 var keyPositions = [
     createPoint(2, 15),
     createPoint(23, 2),
@@ -168,9 +168,6 @@ var mainState = {
         timer = game.time.create(false);
         timer.start();
 
-        // TODO: anchor of timeText.
-        // TODO: add '0' to minutes < 0.
-
         btnUp = game.add.button(128, 288, 'buttonvertical', null, this, 0, 1, 0, 1);
         btnUp.fixedToCamera = true;
         btnUp.events.onInputOver.add(function() { up=true; });
@@ -217,46 +214,8 @@ var mainState = {
         player.body.velocity.x = 0;
         player.body.velocity.y = 0;
 
-        if (cursors.left.isDown || left) {
-            face = WEST;
-            player.body.velocity.x = -200;
-            player.animations.play('walk_left');
-        }
-
-        else if (cursors.right.isDown || right) {
-            face = EAST;
-            player.body.velocity.x = 200;
-            player.animations.play('walk_right');
-        }
-
-        else if (cursors.up.isDown || up) {
-            face = NORTH;
-            player.body.velocity.y = -200;
-            player.animations.play('walk_up');
-        }
-
-        else if (cursors.down.isDown || down) {
-            face = SOUTH;
-            player.body.velocity.y = 200;
-            player.animations.play('walk_down');
-        }
-
-        else {
-            player.animations.stop();
-            switch(face) {
-                case NORTH:
-                    player.frame = 3;
-                    break;
-                case SOUTH:
-                    player.frame = 0;
-                    break;
-                case WEST:
-                    player.frame = 6;
-                    break;
-                case EAST:
-                    player.frame = 9;
-                    break;
-            }
+        if (resultText == null) {
+            this.processMoving();
         }
 
         if (score == 3) {
@@ -307,11 +266,6 @@ var mainState = {
 
     goodGame: function() {
         if (timerText == null) {
-            cursors.up.enabled = false;
-            cursors.right.enabled = false;
-            cursors.down.enabled = false;
-            cursors.left.enabled = false;
-
             btnUp.destroy();
             btnRight.destroy();
             btnDown.destroy();
@@ -324,6 +278,7 @@ var mainState = {
                 emitter.start(false, 5000, 20);
             }
 
+            player.animations.stop();
             player.frame = 0;
 
             timer.pause();
@@ -383,6 +338,50 @@ var mainState = {
 
     updateTimer: function() {
 
+    },
+
+    processMoving: function() {
+        if (cursors.left.isDown || left) {
+            face = WEST;
+            player.body.velocity.x = -200;
+            player.animations.play('walk_left');
+        }
+
+        else if (cursors.right.isDown || right) {
+            face = EAST;
+            player.body.velocity.x = 200;
+            player.animations.play('walk_right');
+        }
+
+        else if (cursors.up.isDown || up) {
+            face = NORTH;
+            player.body.velocity.y = -200;
+            player.animations.play('walk_up');
+        }
+
+        else if (cursors.down.isDown || down) {
+            face = SOUTH;
+            player.body.velocity.y = 200;
+            player.animations.play('walk_down');
+        }
+
+        else {
+            player.animations.stop();
+            switch(face) {
+                case NORTH:
+                    player.frame = 3;
+                    break;
+                case SOUTH:
+                    player.frame = 0;
+                    break;
+                case WEST:
+                    player.frame = 6;
+                    break;
+                case EAST:
+                    player.frame = 9;
+                    break;
+            }
+        }
     }
 };
 
