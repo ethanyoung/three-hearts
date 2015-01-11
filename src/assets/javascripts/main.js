@@ -288,7 +288,7 @@ var mainState = {
             btnLeft.destroy();
 
             if (emitter == null){
-                emitter = game.add.emitter(chest.position.x, 0, 200);
+                emitter = game.add.emitter(player.position.x, player.position.y - 32 * 9, 200);
                 emitter.makeParticles(['star', 'diamond', 'flower']);
                 emitter.gravity = 200;
                 emitter.start(false, 5000, 20);
