@@ -315,7 +315,7 @@ var mainState = {
             game.add.tween(timerText.scale).to( { x: 1.5, y: 1.5 }, tweenTime, Phaser.Easing.Linear.None, true, 0, 1000, true);
 
             var percent = 83;
-            resultText = game.add.text(game.width / 2, game.height / 2 + 32, '你超过了' + percent + '%的玩家', mainStyle);
+            resultText = game.add.text(game.width / 2, game.height / 2 + 32, 'You\'ve overtaken' + percent + '% of the players', mainStyle);
             resultText.anchor.set(0.5);
             resultText.align = 'center';
             resultText.fixedToCamera = true;
@@ -351,7 +351,7 @@ var mainState = {
             }
 
             var whiteStyle = { font: "30px Sans-serif", fill: "#ffffff" };
-            invitText = game.add.text(game.width / 2, 32, "获得宝物!", whiteStyle);
+            invitText = game.add.text(game.width / 2, 32, "Found treasure!", whiteStyle);
             invitText.anchor.set(0.5);
             invitText.align = 'center';
             invitText.fixedToCamera = true;
@@ -411,7 +411,7 @@ var mainState = {
     promtChest: function() {
     if (promtText == null) {
         var whiteStyle = { font: "30px Sans-serif", fill: "#ffffff" };
-        promtText = game.add.text(game.width / 2, 32, "去东边的房间看看！", whiteStyle);
+        promtText = game.add.text(game.width / 2, 32, "Go to east ->！", whiteStyle);
         promtText.anchor.set(0.5);
         promtText.align = 'center';
         promtText.fixedToCamera = true;}
