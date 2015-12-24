@@ -245,6 +245,7 @@ var mainState = {
 
     // render: function() {
     //     game.debug.spriteInfo(player, 32, 32);
+    //     game.debug.text(timer.seconds, 32, 32);
     // },
 
     checkOverlap: function(spriteA, spriteB) {
@@ -314,7 +315,7 @@ var mainState = {
             var tweenTime = Phaser.Timer.SECOND / 2;
             game.add.tween(timerText.scale).to( { x: 1.5, y: 1.5 }, tweenTime, Phaser.Easing.Linear.None, true, 0, 1000, true);
 
-            var percent = 83;
+            var percent = this.computeRatio();
             resultText = game.add.text(game.width / 2, game.height / 2 + 32, "You've overtaken\n" + percent + '%\nof the players', mainStyle);
             resultText.anchor.set(0.5);
             resultText.align = 'center';
@@ -358,6 +359,17 @@ var mainState = {
 
             this.goodGame();
         }
+    },
+
+    computeRatio: function() {
+        seconds = timer.seconds
+        if(seconds < 180) {
+            return Math.round((1 - seconds / 120) * 100);
+        }
+        else {
+            return 1;
+        }
+            
     },
 
     updateTimer: function() {
