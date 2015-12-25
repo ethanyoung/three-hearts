@@ -14,6 +14,9 @@ var SOUTH = 1;
 var EAST = 2;
 var WEST = 3;
 
+var TILE_WIDTH = 32;
+var TILE_HEIGHT = 32;
+
 var score;
 var player;
 var princess;
@@ -37,6 +40,7 @@ var timerText;
 var mainStyle;
 var promtText;
 var trees;
+var win = false;
 
 var respawnPosition = createPoint(5, 2);
 var heartPositions =  [
@@ -230,7 +234,9 @@ var mainState = {
             this.beforeGoodGame();
         }
 
-        // this.updateTimer();
+        if(win) {
+        	this.goodEnding();
+        }
     },
 
     getHeart: function(player, heart) {
@@ -315,12 +321,21 @@ var mainState = {
             var tweenTime = Phaser.Timer.SECOND / 2;
             game.add.tween(timerText.scale).to( { x: 1.5, y: 1.5 }, tweenTime, Phaser.Easing.Linear.None, true, 0, 1000, true);
 
-            var percent = this.computeRatio();
-            resultText = game.add.text(game.width / 2, game.height / 2 + 32, "You've overtaken\n" + percent + '%\nof the players', mainStyle);
+            var ratio = this.computeRatio();
+            resultText = game.add.text(game.width / 2, game.height / 2 + 32, "You've overtaken\n" + ratio + '%\nof the players', mainStyle);
             resultText.anchor.set(0.5);
             resultText.align = 'center';
             resultText.fixedToCamera = true;
+
+            game.camera.unfollow();
+            win = true;
         }
+    },
+
+    goodEnding: function() {
+    	if (game.camera.y < TILE_HEIGHT * 25) {
+    		game.camera.y += 2;
+    	}
     },
 
     fullScreen: function() {
@@ -434,5 +449,5 @@ game.state.add('main', mainState);
 game.state.start('main');
 
 function createPoint(tileIndexX , tileIndexY) {
-    return new Phaser.Point(tileIndexX * 32, tileIndexY * 32);
+    return new Phaser.Point(tileIndexX * TILE_WIDTH, tileIndexY * TILE_HEIGHT);
 }
