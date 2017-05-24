@@ -1,7 +1,7 @@
 # Hearts the game
 [![Code Climate](https://codeclimate.com/github/ethanyoung/three-hearts/badges/gpa.svg)](https://codeclimate.com/github/ethanyoung/three-hearts)
 
-[Play it here!](http://ethanyoung.github.io/three-hearts/src/)
+[Play it here!](https://ethanyoung.github.io/three-hearts/src/)
 
 A 2D game implemented with [Phaser v2.1.3](https://github.com/photonstorm/phaser/tree/v2.1.3) . 
 
